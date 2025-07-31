@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% block title %}おめでとう！{% endblock %}
+
+{% block content %}
+<h1>おめでとう！正解だよ！</h1>
+
+{% if saved %}
+  <p style="color: green;">「{{ saved_sticker }}」のシールを保存しました！</p>
+
+  <a href="{% url next_url %}">
+    <button>つぎへ</button>
+  </a>
+{% else %}
+  <p>よくできました🎉</p>
+
+  <form action="{% url 'save_sticker' %}?next={{ next_url }}" method="post">
+    {% csrf_token %}
+    <p>シールをえらぼう！</p>
+    <label><input type="radio" name="sticker" value="⭐"> ⭐</label>
+    <label><input type="radio" name="sticker" value="🌈"> 🌈</label>
+    <label><input type="radio" name="sticker" value="🐶"> 🐶</label>
+    <br>
+    <input type="submit" value="シールをもらう">
+  </form>
+{% endif %}
+
+<a href="{% url 'index' %}">
+  <button>✖ やめる </button>
+</a>
+{% endblock %}

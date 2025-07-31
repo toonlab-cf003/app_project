@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+{% block title %}おつかれさま！{% endblock %}
+
+{% block content %}
+<h1>おつかれさま！</h1>
+<p>小学3年生の もんだいは ぜんぶ しゅうりょうだよ！</p>
+<p>ここまで しっかり かんがえたね ✨</p>
+
+<a href="{% url 'index' %}">
+  <button>トップページにもどる</button>
+</a>
+<a href="{% url 'question4_1' %}">
+  <button>つぎは 4年生に ちょうせん！</button>
+</a>
+{% endblock %}

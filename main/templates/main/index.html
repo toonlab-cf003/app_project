@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% block title %}トップページ{% endblock %}
+
+{% block content %}
+<a href="{% url 'mypage' %}">
+  <button>マイページ</button>
+</a>
+
+<h1>データのかつよう</h1>
+<p>あつめた じょうほう を しらべて、やくだつこと を すること</p>
+
+<div>
+  <h3>小学2年生</h3>
+  <h2>データって？</h2>
+  <p>数をしらべよう</p>
+  <a href="{% url 'question2_1' %}">
+    <button>スタート</button>
+  </a>
+</div>
+
+<div>
+  <h3>小学3年生</h3>
+  <h2>まとめる</h2>
+  <p>表とグラフで整理しよう</p>
+  <a href="{% url 'question3_1' %}">
+    <button>スタート</button>
+  </a>
+</div>
+
+<div>
+  <h3>小学4年生</h3>
+  <h2>へんかを見る</h2>
+  <p>折れ線グラフでかんがえよう</p>
+  <a href="{% url 'question4_1' %}">
+    <button>スタート</button>
+  </a>
+</div>
+{% endblock %}

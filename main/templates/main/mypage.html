@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+{% block title %}マイページ{% endblock %}
+
+{% block content %}
+<h1>マイページ</h1>
+
+<div class="profile">
+  <div class="icon">○</div>
+  <div class="nickname">{{ nickname }}</div>
+</div>
+
+<h2>あつめたシール</h2>
+<div class="stickers">
+  {% for s in stickers %}
+    <span class="sticker">{{ s }}</span>
+  {% empty %}
+    <p>まだシールがありません</p>
+  {% endfor %}
+</div>
+
+<a href="{% url 'index' %}">
+  <button>トップページにもどる</button>
+</a>
+{% endblock %}

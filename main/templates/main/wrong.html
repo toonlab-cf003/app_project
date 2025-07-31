@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{% block title %}ざんねん…{% endblock %}
+
+{% block content %}
+  <h1>ざんねん…！</h1>
+  <p>もういちど ちょうせんしてみよう</p>
+
+  <a href="{% url retry_url %}">
+    <button>もういちど</button>
+  </a>
+
+  <a href="{% url 'index' %}">
+    <button>やめる</button>
+  </a>
+
+  {% include 'main/timeline_snippet.html' %}
+{% endblock %}
