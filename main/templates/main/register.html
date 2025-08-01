@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% block title %}プレイヤー登録{% endblock %}
+
+{% block content %}
+<div class="register-container">
+  <h2>プレイヤー登録</h2>
+  <p>ニックネームを入力して、呼び方を選んでね！</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-row">
+      <input class="nickname-input" type="text" name="nickname" placeholder="でーたもん" required>
+      
+      <select class="suffix-select" name="suffix">
+        <option value="">(なし)</option>
+        <option value="さん">さん</option>
+        <option value="くん">くん</option>
+        <option value="ちゃん">ちゃん</option>
+      </select>
+    </div>
+
+    <input type="hidden" name="username" value="temp_user_{{ form.nickname.value|default:'new' }}">
+    <input type="hidden" name="password1" value="temporary_password">
+    <input type="hidden" name="password2" value="temporary_password">
+
+    <button class="submit-button" type="submit">つぎへ</button>
+  </form>
+</div>
+{% endblock %}

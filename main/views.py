@@ -3,9 +3,14 @@ from django.contrib.auth.decorators import login_required
 from .models import Message, Good
 from .forms import PostForm
 from django.utils import timezone
-from .forms import NicknameRegisterForm
+# from .forms import NicknameRegisterForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.contrib.auth import logout
+# from django.http import HttpResponse
+# from django.conf import settings
+from django.contrib.auth import get_user_model
+# from django.contrib.auth.hashers import make_password
 
 # トップページ -----------------------------------------------------------
 def index_view(request):
@@ -213,24 +218,70 @@ def good_view(request, pk):
     return redirect('timeline')
 
 # ユーザー関連　----------------------------------------------------------
-def signup_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)  # 登録と同時にログイン
-            return redirect('index')
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})
-
+User = get_user_model()
+# ステップ1：ニックネーム＋敬称を受け取り、セッション保存
 def register_view(request):
     if request.method == 'POST':
-        form = NicknameRegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('index')  # トップページなどにリダイレクト
-    else:
-        form = NicknameRegisterForm()
-    return render(request, 'main/register.html', {'form': form})
+        request.session['nickname'] = request.POST['nickname']
+        request.session['suffix'] = request.POST.get('suffix', '')
+        return redirect('register_birthday')
+    return render(request, 'main/register.html')
+
+# ステップ2：誕生日を受け取り、セッションに保存 → select_iconへ
+def register_birthday_view(request):
+    if request.method == 'POST':
+        request.session['birthday'] = request.POST['birthday']
+        return redirect('select_icon')
+    return render(request, 'main/register_birthday.html')
+
+def select_icon_view(request):
+    # 仮で10個の画像ファイル名
+    icons = [f'player_{str(i)}.jpg' for i in range(1, 16)]
+    return render(request, 'main/select_icon.html', {'icons': icons})
+
+User = get_user_model()
+
+def save_icon_view(request):
+    if request.method == 'POST':
+        icon = request.POST.get('icon')
+
+        # ステップ1～2で保存したセッションデータを取得
+        nickname = request.session.get('nickname')
+        suffix = request.session.get('suffix')
+        birthday = request.session.get('birthday')
+
+        if not all([nickname, suffix, birthday]):
+            return redirect('register')  # 情報が足りなければ登録へ戻す
+
+        # ユーザーを作成（usernameは仮で作って、あとでIDで上書き）
+        user = User.objects.create_user(
+            username='temp_user',
+            password=birthday,
+            nickname=nickname,
+            suffix=suffix,
+            icon=icon,
+        )
+        user.username = f"user_{user.id}"
+        user.save()
+
+        # ログインさせてセッションを整理
+        login(request, user)
+        for key in ['nickname', 'suffix', 'birthday']:
+            if key in request.session:
+                del request.session[key]
+        return redirect('register_done')
+    return redirect('select_icon')
+
+@login_required 
+def register_done_view(request):
+    return render(request, 'main/register_done.html', {
+        'nickname': request.user.nickname,
+        'suffix': request.user.suffix,
+        'icon': request.user.icon,
+    })
+
+# ログアウト　----------------------------------------------------------
+def logout_view(request):
+    logout(request)
+    return redirect('index')
+

@@ -36,6 +36,7 @@ class CustomUser(AbstractUser):
         choices=[('さん', 'さん'), ('くん', 'くん'), ('ちゃん', 'ちゃん')],
         default='さん'
     )
+    icon = models.CharField(max_length=100, blank=True)
 
     def display_name(self):
         return self.nickname + self.suffix

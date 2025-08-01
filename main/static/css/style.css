@@ -1,0 +1,82 @@
+/* --- 登録画面のデザイン --- */
+.register-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #fff8dc;
+  text-align: center;
+  font-family: 'Rounded Mplus 1c', sans-serif;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+.register-container h2 {
+  font-size: 28px;
+  color: #4b0082;
+}
+.nickname-input {
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #ffa500;
+  margin-bottom: 0px;
+  width: 90%;
+}
+.suffix-options {
+  font-size: 18px;
+  margin: 15px 0;
+}
+.suffix-options label {
+  margin-right: 15px;
+}
+.submit-button {
+  font-size: 20px;
+  padding: 10px 30px;
+  background-color: #ffa500;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.submit-button:hover {
+  background-color: #ff8c00;
+}
+.form-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.nickname-input {
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #ffa500;
+  width: 60%;
+}
+.suffix-select {
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #ffa500;
+  background-color: white;
+}
+.icon-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 80px;
+  border: 5px solid lightpink;
+  border-radius: 5px;
+  padding: 50px;
+}
+.icon-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.icon-button:hover {
+  transform: scale(1.1);
+}

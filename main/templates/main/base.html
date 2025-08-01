@@ -4,20 +4,25 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}データのかつよう{% endblock %}</title>
-
-  <!-- CSSの読み込み（共通） -->
   <link rel="stylesheet" href="{% static 'css/timeline.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
   
   {% if user.is_authenticated %}
-    <p>こんにちは、{{ user.username }} さん！<a href="{% url 'logout' %}">ログアウト</a></p>
+    <p>
+      <form method="POST" action="{% url 'logout' %}" style="display:inline;float: right;">
+        {% csrf_token %}
+        <button type="submit" style="background:none; border:none; color:blue; cursor:pointer; text-decoration:underline;">
+          ログアウト
+        </button>
+      </form>
+    </p>
   {% else %}
-    <p><a href="{% url 'login' %}">ログイン</a> / <a href="{% url 'signup' %}">新規登録</a></p>
+    <p><a href="{% url 'login' %}">ログイン</a> / <a href="{% url 'register' %}">新規登録</a></p>
   {% endif %}
   <!-- タイムラインなど共通部品をここに -->
-  {% include 'main/timeline_snippet.html' %}
+  <!-- {% include 'main/timeline_snippet.html' %} -->
 
   <!-- 各ページの中身 -->
   <div class="main-content">

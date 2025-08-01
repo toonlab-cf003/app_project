@@ -1,6 +1,7 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views
+# from django.contrib.auth import views as auth_views
 from . import views
+from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     path('', views.index_view, name='index'),
@@ -33,9 +34,15 @@ urlpatterns = [
     path('good/<int:pk>/', views.good_view, name='good'),
 
     # ユーザー関連 ----------------------------------------------------
-    path('signup/', views.signup_view, name='signup'),
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
+    path('login/', LoginView.as_view(template_name='main/login.html'
+        ,redirect_authenticated_user=True), name='login'),
+    path('logout/', views.logout_view, name='logout'),
     path('register/', views.register_view, name='register'),
+    path('register_birthday/', views.register_birthday_view
+        , name='register_birthday'),
+    path('select_icon/', views.select_icon_view, name='select_icon'),
+    path('save_icon/', views.save_icon_view, name='save_icon'),
+    path('register_done/', views.register_done_view, name='register_done'),
+
 
 ]

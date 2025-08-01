@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% block title %}ログイン{% endblock %}
+{% load static %}
+
+{% block content %}
+<h2>たんじょうびでログイン</h2>
+<p>ニックネームと誕生日を入力してね</p>
+
+<form method="POST">
+  {% csrf_token %}
+  
+  <label>ニックネーム</label>
+  <input type="text" name="nickname" placeholder="例：でーたもん" required>
+
+  <label>誕生日（4けた）</label>
+  <input type="password" name="password" placeholder="例：1016" required>
+
+  <br><br>
+  <button type="submit">ログイン</button>
+
+  {% if form.errors %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+</form>
+{% endblock %}

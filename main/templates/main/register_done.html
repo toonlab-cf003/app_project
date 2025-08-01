@@ -1,0 +1,7 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>{{ nickname }}{{ suffix }} で登録完了！</h2>
+<img src="{% static 'images/'|add:icon %}" alt="アイコン" width="100">
+{% endblock %}
