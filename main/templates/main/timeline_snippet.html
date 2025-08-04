@@ -1,20 +1,20 @@
 <div id="timeline-container">
   <h4>タイムライン</h4>
   <div id="timeline-list">
-    {% for m in messages %}
-      {% if m.id %}
-        <div class="comment-block">
-          <span class="nickname">{{ m.owner.username }}</span>
-          <p class="comment-content">{{ m.content }}</p>
-          <span class="timestamp">{{ m.pub_date|date:"n/j H:i" }}</span>
-          <form method="post" action="{% url 'good' m.id %}">
-            {% csrf_token %}
-            <button class="good-button">👍 {{ m.good_count }}</button>
-          </form>
-        </div>
-      {% endif %}
-    {% endfor %}
-  </div>
+  {% for m in messages %}
+    {% if m.id %}
+      <div class="comment-block">
+        <p>{{ m.content }}</p>
+        <form method="post" action="{% url 'good' m.id %}">
+          {% csrf_token %}
+          <button>👍 {{ m.good_count }}</button>
+        </form>
+      </div>
+    {% endif %}
+    {% empty %}
+    <p>まだコメントはありません。</p>
+  {% endfor %}
+</div>
 
   <form method="post">
     {% csrf_token %}
