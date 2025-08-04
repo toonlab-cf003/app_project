@@ -1,12 +1,15 @@
 {% extends 'main/base.html' %}
+{% load static %}
 {% block title %}マイページ{% endblock %}
 
 {% block content %}
 <h1>マイページ</h1>
 
 <div class="profile">
-  <div class="icon">○</div>
-  <div class="nickname">{{ nickname }}</div>
+  <div class="icon">
+    <img src="{% static 'images/' %}{{ user.icon }}" alt="アイコン" width="80">
+  </div>
+  <div class="nickname">{{ user.nickname }}</div>
 </div>
 
 <h2>あつめたシール</h2>

@@ -8,3 +8,7 @@ class Command(BaseCommand):
         User = get_user_model()
         for user in User.objects.all():
             self.stdout.write(f"{user.id} | {user.nickname} | {user.username} | {user.icon}")
+
+
+# コマンドプロンプトで以下を実行
+# python manage.py show_users

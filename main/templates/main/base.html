@@ -4,32 +4,37 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}データのかつよう{% endblock %}</title>
-  
   <link rel="stylesheet" href="{% static 'css/timeline.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
   {% if user.is_authenticated %}
-    <p>
-      <form method="POST" action="{% url 'logout' %}" style="display:inline;float: right;">
-        {% csrf_token %}
-        <button type="submit" style="background:none; border:none; color:blue; cursor:pointer; text-decoration:underline;">
-          ログアウト
-        </button>
-      </form>
-    </p>
+    <p class="login_message">ようこそ、{{ user.nickname }}{{ user.suffix }} ！</p>
+  <form method="POST" action="{% url 'logout' %}" style="display:inline; float: right;">
+      {% csrf_token %}
+      <button type="submit" style="background:none; border:none; color:blue; cursor:pointer; text-decoration:underline;">
+        ログアウト
+      </button>
+    </form>
   {% else %}
     <p><a href="{% url 'login' %}">ログイン</a> / <a href="{% url 'register' %}">新規登録</a></p>
   {% endif %}
 
   <div class="main-content">
     {% block content %}
+        {% if messages %}
+          <ul class="message-list">
+            {% for message in messages %}
+              <li class="message {{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
     {% endblock %}
   </div>
 
   <!-- 🔽 タイムライン（最初は非表示） -->
   <div id="timeline-box" style="display: none;">
-    {% include 'main/timeline_snippet.html' %}
+    {% include 'main/timeline_embed.html' %}
   </div>
 
   <!-- ⬆ タイムライン表示切り替えボタン -->

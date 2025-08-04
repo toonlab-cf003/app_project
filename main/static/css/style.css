@@ -80,3 +80,12 @@
 .icon-button:hover {
   transform: scale(1.1);
 }
+/* ログインメッセージ------------------- */
+.login_message {
+  color: green;
+  font-weight: bold;
+  background-color: #e0f8e0;
+  border: 1px solid #90ee90;
+  padding: 10px;
+  border-radius: 5px;
+}

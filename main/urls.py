@@ -31,7 +31,6 @@ urlpatterns = [
 
     # タイムライン関連 ----------------------------------------------------
     path('timeline/', views.timeline_view, name='timeline'),
-    path('good/<int:pk>/', views.good_view, name='good'),
 
     # ユーザー関連 ----------------------------------------------------
     path('login/', views.login_view, name='login'),

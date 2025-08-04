@@ -15,18 +15,6 @@ class Message(models.Model):
     class Meta:
         ordering = ['-pub_date']
 
-# Good（いいね）モデル：1ユーザー1回制限あり
-class Good(models.Model):
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='good_owner')
-    message = models.ForeignKey(Message, on_delete=models.CASCADE)
-    pub_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'"{self.message}" (by {self.owner})'
-
-    class Meta:
-        ordering = ['-pub_date']
-
 # アカウント登録
 class CustomUser(AbstractUser):
     nickname = models.CharField(max_length=20)

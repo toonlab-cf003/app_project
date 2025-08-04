@@ -134,3 +134,7 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+STATICFILES_DIRS = [
+  BASE_DIR / 'main' / 'static',
+]

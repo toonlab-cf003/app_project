@@ -1,6 +1,6 @@
 from .forms import NicknameRegisterForm
 from .forms import PostForm
-from .models import Message, Good, CustomUser
+from .models import Message, CustomUser
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.utils import timezone
@@ -18,7 +18,24 @@ from django.contrib.auth.decorators import login_required
 # トップページ -----------------------------------------------------------
 def index_view(request):
     messages = Message.objects.select_related('owner').order_by('-pub_date')
-    return render(request, 'main/index.html', {'messages': messages})
+    form = PostForm(user=request.user)
+
+    if request.method == 'POST':
+        form = PostForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            message = Message(
+                owner=request.user,
+                content=form.cleaned_data['content'],
+                pub_date=timezone.now()
+            )
+            message.save()
+            return redirect('index')  # indexに戻る
+
+    context = {
+        'messages': messages,
+        'form': form,
+    }
+    return render(request, 'main/index.html', context)
 
 
 # 共通テストページ（あれば） ----------------------------------------------
@@ -188,13 +205,12 @@ def mypage_view(request):
     return render(request, 'main/mypage.html', params)
 
 # タイムライン表示と投稿処理　-----------------------------------------------
-@login_required
 def timeline_view(request):
     messages = Message.objects.all()
-    form = PostForm(user=request.user)
+    form = PostForm(user=request.user if request.user.is_authenticated else None)
 
     if request.method == 'POST':
-        form = PostForm(user=request.user, data=request.POST)
+        form = PostForm(user=request.user if request.user.is_authenticated else None, data=request.POST)
         if form.is_valid():
             message = Message()
             message.owner = request.user
@@ -207,20 +223,7 @@ def timeline_view(request):
         'messages': messages,
         'form': form,
     }
-    return render(request, 'main/timeline.html', params)
-
-# 👍ボタンを押したときの処理（1人1回）　-------------------------------------
-@login_required
-def good_view(request, pk):
-    message = get_object_or_404(Message, pk=pk)
-    already_good = Good.objects.filter(owner=request.user, message=message).exists()
-
-    if not already_good:
-        Good.objects.create(owner=request.user, message=message, pub_date=timezone.now())
-        message.good_count += 1
-        message.save()
-
-    return redirect('timeline')
+    return render(request, 'main/timeline_embed.html', params)
 
 # ユーザー関連　----------------------------------------------------------
 User = get_user_model()
@@ -277,7 +280,6 @@ def save_icon_view(request):
         return redirect('register_done')
     return redirect('select_icon')
 
-@login_required 
 def register_done_view(request):
     return render(request, 'main/register_done.html', {
         'nickname': request.user.nickname,
@@ -285,6 +287,7 @@ def register_done_view(request):
         'icon': request.user.icon,
     })
 
+# ログイン　----------------------------------------------------------
 def login_view(request):
     if request.method == 'POST':
         nickname = request.POST.get('nickname')
@@ -292,10 +295,10 @@ def login_view(request):
 
         try:
             user = User.objects.get(nickname=nickname)
-            if user.check_password(password):  # 誕生日はハッシュ化されて保存されてる前提
+            if user.check_password(password):
                 login(request, user)
                 messages.success(request, f"{user.nickname}さん、ログインしました！")
-                return redirect('index')  # index はurls.pyでname='index'にしてね
+                return redirect('index')
             else:
                 messages.error(request, "パスワードがちがいます。")
         except User.DoesNotExist:

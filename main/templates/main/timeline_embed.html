@@ -1,0 +1,30 @@
+{% load static %}
+
+<div id="timeline-container">
+  <!-- 投稿フォーム -->
+  {% if form %}
+    <form method="POST" class="message-form">
+      {% csrf_token %}
+      <label for="{{ form.content.id_for_label }}">メッセージ</label>
+      {{ form.content }}
+      <button type="submit">とうこう</button>
+    </form>
+  {% endif %}
+
+  <!-- メッセージ一覧 -->
+  <div id="timeline-list">
+    {% if user.is_authenticated %}
+      {% for msg in messages %}
+        <div class="comment-block">
+          <span class="nickname">{{ msg.owner.nickname }}{{ msg.owner.suffix }}</span>
+          <p class="comment-content">{{ msg.content }}</p>
+          <span class="timestamp">{{ msg.pub_date|date:"n/j H:i" }}</span>
+        </div>
+      {% empty %}
+        <p>まだコメントはありません。</p>
+      {% endfor %}
+    {% else %}
+      <p>コメントを見るには、ログインしてね！</p>
+    {% endif %}
+  </div>
+</div>
