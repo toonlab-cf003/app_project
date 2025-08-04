@@ -1,20 +1,25 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from .models import Message, Good
+from .forms import NicknameRegisterForm
 from .forms import PostForm
+from .models import Message, Good, CustomUser
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.utils import timezone
-# from .forms import NicknameRegisterForm
-from django.contrib.auth.forms import UserCreationForm
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth import logout
-# from django.http import HttpResponse
-# from django.conf import settings
 from django.contrib.auth import get_user_model
-# from django.contrib.auth.hashers import make_password
+from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.decorators import login_required
 
 # トップページ -----------------------------------------------------------
 def index_view(request):
-    return render(request, 'main/index.html')
+    messages = Message.objects.select_related('owner').order_by('-pub_date')
+    return render(request, 'main/index.html', {'messages': messages})
+
 
 # 共通テストページ（あれば） ----------------------------------------------
 def question_view(request):
@@ -279,6 +284,24 @@ def register_done_view(request):
         'suffix': request.user.suffix,
         'icon': request.user.icon,
     })
+
+def login_view(request):
+    if request.method == 'POST':
+        nickname = request.POST.get('nickname')
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(nickname=nickname)
+            if user.check_password(password):  # 誕生日はハッシュ化されて保存されてる前提
+                login(request, user)
+                messages.success(request, f"{user.nickname}さん、ログインしました！")
+                return redirect('index')  # index はurls.pyでname='index'にしてね
+            else:
+                messages.error(request, "パスワードがちがいます。")
+        except User.DoesNotExist:
+            messages.error(request, "ニックネームが見つかりません。")
+
+    return render(request, 'main/login.html')
 
 # ログアウト　----------------------------------------------------------
 def logout_view(request):

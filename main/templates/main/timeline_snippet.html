@@ -2,15 +2,17 @@
   <h4>タイムライン</h4>
   <div id="timeline-list">
     {% for m in messages %}
-      <div class="comment-block">
-        <span class="nickname">{{ m.owner.username }}</span>
-        <p class="comment-content">{{ m.content }}</p>
-        <span class="timestamp">{{ m.pub_date|date:"n/j H:i" }}</span>
-        <form method="post" action="{% url 'good' m.id %}">
-          {% csrf_token %}
-          <button class="good-button">👍 {{ m.good_count }}</button>
-        </form>
-      </div>
+      {% if m.id %}
+        <div class="comment-block">
+          <span class="nickname">{{ m.owner.username }}</span>
+          <p class="comment-content">{{ m.content }}</p>
+          <span class="timestamp">{{ m.pub_date|date:"n/j H:i" }}</span>
+          <form method="post" action="{% url 'good' m.id %}">
+            {% csrf_token %}
+            <button class="good-button">👍 {{ m.good_count }}</button>
+          </form>
+        </div>
+      {% endif %}
     {% endfor %}
   </div>
 

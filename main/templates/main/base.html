@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-  
   {% if user.is_authenticated %}
     <p>
       <form method="POST" action="{% url 'logout' %}" style="display:inline;float: right;">
@@ -21,15 +20,44 @@
   {% else %}
     <p><a href="{% url 'login' %}">ログイン</a> / <a href="{% url 'register' %}">新規登録</a></p>
   {% endif %}
-  <!-- タイムラインなど共通部品をここに -->
-  <!-- {% include 'main/timeline_snippet.html' %} -->
 
-  <!-- 各ページの中身 -->
   <div class="main-content">
     {% block content %}
-    <!-- ページごとの中身がここに入る -->
     {% endblock %}
   </div>
 
+  <!-- 🔽 タイムライン（最初は非表示） -->
+  <div id="timeline-box" style="display: none;">
+    {% include 'main/timeline_snippet.html' %}
+  </div>
+
+  <!-- ⬆ タイムライン表示切り替えボタン -->
+  <button id="toggle-button" style="
+    position: fixed;
+    right: 20px;
+    z-index: 999;
+    border-radius: 30%;
+    padding: 5px 10px;
+    cursor: pointer;
+  ">
+    ⬆
+  </button>
+
+  <!-- 🔧 JavaScript（タイムライン表示切替） -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const button = document.getElementById('toggle-button');
+      const box = document.getElementById('timeline-box');
+      let isVisible = false;
+
+      button.addEventListener('click', function () {
+        isVisible = !isVisible;
+        box.style.display = isVisible ? 'block' : 'none';
+        button.textContent = isVisible ? '⬇' : '⬆';  // 表示に応じて矢印変更
+      });
+    });
+  </script>
+
+  {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -34,8 +34,7 @@ urlpatterns = [
     path('good/<int:pk>/', views.good_view, name='good'),
 
     # ユーザー関連 ----------------------------------------------------
-    path('login/', LoginView.as_view(template_name='main/login.html'
-        ,redirect_authenticated_user=True), name='login'),
+    path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('register/', views.register_view, name='register'),
     path('register_birthday/', views.register_birthday_view
