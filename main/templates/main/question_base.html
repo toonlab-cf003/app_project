@@ -2,7 +2,7 @@
 {% block title %}もんだい{% endblock %}
 
 {% block content %}
-<a href="{% url 'mypage' %}"><button>マイページ</button></a>
+<a href="{% url 'mypage' %}"><button class="btn">マイページ</button></a>
 
 <div class="question-container">
   <div class="question-image">
@@ -20,7 +20,7 @@
       <input type="hidden" name="correct" value="{{ correct }}">
       <input type="hidden" name="next_url" value="{{ next_url }}">
       <input type="hidden" name="current_url" value="{{ request.resolver_match.url_name }}">
-      <input type="submit" value="こたえる">
+      <input type="submit" value="こたえる" class="btn>
     </form>
   </div>
 </div>

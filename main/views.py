@@ -42,7 +42,7 @@ def index_view(request):
 def question_view(request):
     return render(request, 'main/question.html')
 
-# 各問題ページ（小学2年生） -----------------------------------------------
+# 各問題ページ -----------------------------------------------
 def question2_1_view(request):
     params = {
         'title': '小学2年生｜もんだい①',
@@ -67,7 +67,6 @@ def question2_2_view(request):
     }
     return render(request, 'main/question_base.html', params)
 
-# 小学3年生 -----------------------------------------------------------
 def question3_1_view(request):
     params = {
         'title': '小学3年生｜もんだい①',
@@ -104,7 +103,6 @@ def question3_3_view(request):
     }
     return render(request, 'main/question_base.html', params)
 
-# 小学4年生 -----------------------------------------------------------
 def question4_1_view(request):
     params = {
         'title': '小学4年生｜もんだい①',
@@ -183,7 +181,8 @@ def correct_view(request):
     # セッション or POSTから next_url を取り出して使う
     next_url = request.GET.get('next', 'index')  # なければ index に戻る
     params = {
-        'next_url': next_url
+        'next_url': next_url,
+        'sticker_list': range(1, 51),
     }
     return render(request, 'main/correct.html', params)
 
@@ -329,3 +328,7 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
+# 未ログイン　----------------------------------------------------------
+
+def not_logged_view(request):
+    return render(request, 'main/not_logged.html')

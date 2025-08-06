@@ -2,8 +2,8 @@
 #timeline-container {
   position: fixed;
   right: 0;
-  top: 100px;
-  width: 300px;
+  bottom: 100px;
+  width: 400px;
   margin: 0 20px;
   background: #bed3e9ed;
   border-left: 2px solid #0352f661;
@@ -11,6 +11,21 @@
   padding: 10px;
   box-shadow: 0px 1px 10px 1px #0352f6;
   z-index: 1000;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#toggle-button {
+  position: fixed;
+  right: 25px;
+  bottom: 20px;
+  width: 70px;
+  height: 70px;
+  z-index: 999;
+  border-radius: 30%;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 /* 各メッセージブロック */

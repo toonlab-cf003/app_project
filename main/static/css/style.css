@@ -1,3 +1,76 @@
+body {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.btn{
+  padding: 10px 20px;
+  font-size: 22px;
+  font-weight: bold;
+  background-color: whitesmoke;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out, padding 0.5s ease-in-out;
+}
+.btn:hover {
+  transform: scale(1.1);
+}
+
+.btn_right {
+  float: right;
+  margin-right: 30px;
+}
+
+.grade-container {
+  display: flex;
+  justify-content: center;     /* 真ん中に並べる */
+  gap: 30px;                   /* 各カードの間隔 */
+  margin: 40px 0;
+  flex-wrap: wrap;             /* 画面が狭い時に折り返す */
+}
+
+.grade-card {
+  background-color: whitesmoke;
+  padding: 20px;
+  width: 220px;
+  text-align: center;
+  border: 2px solid #096688;
+  border-radius: 12px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Rounded Mplus 1c', sans-serif;
+}
+
+.grade-card h2 {
+  font-size: 20px;
+  color: #333;
+}
+
+.grade-card p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.index_btn {
+  padding: 8px 20px;
+  font-size: 22px;
+  font-weight: bold;
+  background-color: rgb(59, 150, 183);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out, padding 0.5s ease-in-out;
+}
+
+.index_btn:hover {
+  background-color: #096688;
+  transform: scale(1.1);
+}
+
+
 /* --- 登録画面のデザイン --- */
 .register-container {
   max-width: 400px;
@@ -126,4 +199,103 @@ h2.sab-title {
 .question-content {
   flex: 1;
   font-size: 18px;
+}
+
+/* ステッカー全体のレイアウト */
+.sticker-form {
+  width: 95%;
+  margin: 0 auto;
+}
+.small-coment {
+  text-align: center;
+  display: block;
+}
+.sticker-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin: 5px auto 10px;
+  /* 👇ここからスクロール設定 */
+  max-width: 1000px;
+  max-height: 380px;
+  overflow-y: auto;         /* 縦スクロールON */
+  overflow-x: hidden;       /* 横スクロールは不要なのでOFF */
+  padding: 20px;
+  border: 2px solid #ccc;   /* 枠が必要なら */
+  border-radius: 10px;
+  background-color: #fffefc;
+}
+
+/* inputは非表示にする */
+.sticker-grid input[type="radio"] {
+  display: none;
+}
+
+/* ラベル（画像）をボタンっぽく見せる */
+.sticker-label {
+  border: 3px solid transparent;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: inline-block;
+}
+
+.sticker-label img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* 選択中の画像に枠をつける */
+.sticker-grid input[type="radio"]:checked + .sticker-label {
+  border-color: #ff7f50;
+  box-shadow: 0 0 10px #ff7f50;
+  background-color: #fff5eb;
+}
+.submit-button-top {
+  display: block;
+  margin: 0 auto 20px auto;
+  padding: 10px 30px;
+  font-size: 18px;
+  background-color: #ffa500;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.submit-button-top:hover {
+  background-color: #ff8c00;
+}
+
+.button-group {
+  height: 50px;
+  line-height: 50px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.button-group a {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.logout_btn_form{
+  display:inline;
+  float: right;
+}
+
+header {
+  background-color: #096688;
+}
+
+.footer {
+  text-align: center;
+  color: whitesmoke;
+  padding: 10px;
+  margin-top: 50px;
+  font-size: 14px;
+  background-color: #096688;
 }

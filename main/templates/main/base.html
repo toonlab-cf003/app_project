@@ -8,48 +8,47 @@
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+  <header class="site-header">
   {% if user.is_authenticated %}
-    <p class="login_message">ようこそ、{{ user.nickname }}{{ user.suffix }} ！</p>
-  <form method="POST" action="{% url 'logout' %}" style="display:inline; float: right;">
+    <p class="login_message">ようこそ、{{ user.nickname }}{{ user.suffix }}！</p>
+    <form method="POST" action="{% url 'logout' %}" class="logout_btn_form">
       {% csrf_token %}
-      <button type="submit" style="background:none; border:none; color:blue; cursor:pointer; text-decoration:underline;">
-        ログアウト
-      </button>
+      <button type="submit" class="btn btn_right">ログアウト</button>
     </form>
+
+    <a href="{% url 'mypage' %}">
+      <button class="btn">マイページ</button>
+    </a>
   {% else %}
-    <p><a href="{% url 'login' %}">ログイン</a> / <a href="{% url 'register' %}">新規登録</a></p>
+    <div class="button-group">
+      <a href="{% url 'register' %}"><button class="btn">新規登録</button></a>
+      <a href="{% url 'login' %}"><button class="btn">ログイン</button></a>
+    </div>
+    <a href="{% url 'not_logged' %}">
+      <button class="btn btn_right">マイページ</button>
+    </a>
   {% endif %}
+  </header>
 
-  <div class="main-content">
+  <main class="main-content">
     {% block content %}
-        {% if messages %}
-          <ul class="message-list">
-            {% for message in messages %}
-              <li class="message {{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
+    {% if messages %}
+      <ul class="message-list">
+        {% for message in messages %}
+          <li class="message {{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
     {% endblock %}
-  </div>
+  </main>
 
-  <!-- 🔽 タイムライン（最初は非表示） -->
+  <!-- タイムライン -->
   <div id="timeline-box" style="display: none;">
     {% include 'main/timeline_embed.html' %}
   </div>
 
-  <!-- ⬆ タイムライン表示切り替えボタン -->
-  <button id="toggle-button" style="
-    position: fixed;
-    right: 20px;
-    z-index: 999;
-    border-radius: 30%;
-    padding: 5px 10px;
-    cursor: pointer;
-  ">
-    ⬆
-  </button>
+  <button id="toggle-button">⬆</button>
 
-  <!-- 🔧 JavaScript（タイムライン表示切替） -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const button = document.getElementById('toggle-button');
@@ -65,5 +64,10 @@
   </script>
 
   {% block extra_js %}{% endblock %}
+  
+  <footer class="footer">
+    <p>© 2025 データのかつようアプリ</p>
+  </footer>
 </body>
+
 </html>

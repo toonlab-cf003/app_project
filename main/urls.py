@@ -41,6 +41,7 @@ urlpatterns = [
     path('select_icon/', views.select_icon_view, name='select_icon'),
     path('save_icon/', views.save_icon_view, name='save_icon'),
     path('register_done/', views.register_done_view, name='register_done'),
+    path('not_logged/', views.not_logged_view, name='not_logged'),
 
 
 ]
