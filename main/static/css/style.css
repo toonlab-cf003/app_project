@@ -80,6 +80,11 @@
 .icon-button:hover {
   transform: scale(1.1);
 }
+
+h2.sab-title {
+  text-align: center;
+}
+
 /* ログインメッセージ------------------- */
 .login_message {
   color: green;
@@ -88,4 +93,37 @@
   border: 1px solid #90ee90;
   padding: 10px;
   border-radius: 5px;
+}
+
+.main-content {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.title-style {
+  margin-top: 0;
+}
+h2.sab-title {
+  text-align: center;
+  background-color: #afef0c;
+  padding: 15px;
+}
+.question-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  margin: 30px;
+}
+
+.question-image img {
+  max-width: 450px;
+  height: auto;
+  border: 1px solid #ccc;
+  padding: 5px;
+  background-color: #f9f9f9;
+}
+
+.question-content {
+  flex: 1;
+  font-size: 18px;
 }

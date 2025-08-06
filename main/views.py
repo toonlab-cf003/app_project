@@ -46,20 +46,24 @@ def question_view(request):
 def question2_1_view(request):
     params = {
         'title': '小学2年生｜もんだい①',
-        'question': 'りんごが いくつ うれましたか？',
-        'choices': ['10こ', '30こ', '50こ'],
-        'correct': '30こ',
+        'sab_title': '池に いる 生きものの 数を しらべました。',
+        'question': 'いちばん 数が 多いのは 何ですか？',
+        'choices': ['めだか', 'こい', 'ざりがに'],
+        'correct': 'めだか',
         'next_url': 'question2_2',
+        'image_url': '/static/images/question2.png', 
     }
     return render(request, 'main/question_base.html', params)
 
 def question2_2_view(request):
     params = {
         'title': '小学2年生｜もんだい②',
-        'question': 'なんこ たべましたか？',
-        'choices': ['2こ', '5こ', '7こ'],
-        'correct': '5こ',
+        'sab_title': '池に いる 生きものの 数を しらべました。',
+        'question': 'ふなは こいより 何ひき 多いですか？',
+        'choices': ['１ぴき', '３びき', '４ひき'],
+        'correct': '３びき',
         'next_url': 'finish2',
+        'image_url': '/static/images/question2.png', 
     }
     return render(request, 'main/question_base.html', params)
 
@@ -67,30 +71,36 @@ def question2_2_view(request):
 def question3_1_view(request):
     params = {
         'title': '小学3年生｜もんだい①',
-        'question': 'りんごが いくつ うれましたか？',
-        'choices': ['10こ', '30こ', '50こ'],
-        'correct': '30こ',
+        'sab_title': '次のグラフを見て、答えましょう。',
+        'question': 'すきな人が いちばん多い スポーツは 何ですか？',
+        'choices': ['ドッチボール', '水泳', 'サッカー'],
+        'correct': 'サッカー',
         'next_url': 'question3_2',
+        'image_url': '/static/images/question3_1.png',
     }
     return render(request, 'main/question_base.html', params)
 
 def question3_2_view(request):
     params = {
         'title': '小学3年生｜もんだい②',
-        'question': 'りんごが いくつ うれましたか？',
-        'choices': ['10こ', '30こ', '50こ'],
-        'correct': '30こ',
+        'sab_title': '次のグラフを見て、答えましょう。',
+        'question': 'ドッジボールの人数は、野球の人数の何倍ですか？',
+        'choices': ['２倍', '３倍', '５倍'],
+        'correct': '２倍',
         'next_url': 'question3_3',
+        'image_url': '/static/images/question3_1.png',
     }
     return render(request, 'main/question_base.html', params)
 
 def question3_3_view(request):
     params = {
         'title': '小学3年生｜もんだい③',
-        'question': 'りんごが いくつ うれましたか？',
-        'choices': ['10こ', '30こ', '50こ'],
-        'correct': '30こ',
+        'sab_title': '3年生の町べつの人数を調べました。',
+        'question': '表の㋑に入る数は 何でしょう？',
+        'choices': ['３０', '３１', '３２'],
+        'correct': '３１',
         'next_url': 'finish3',
+        'image_url': '/static/images/question3_3.png',
     }
     return render(request, 'main/question_base.html', params)
 
@@ -98,40 +108,48 @@ def question3_3_view(request):
 def question4_1_view(request):
     params = {
         'title': '小学4年生｜もんだい①',
-        'question': 'りんごが いくつ うれましたか？',
-        'choices': ['10こ', '30こ', '50こ'],
-        'correct': '30こ',
+        'sab_title': '次の折れ線グラフを見て問題に答えましょう。',
+        'question': 'プールの水の温度が いちばん高かったのは 何時ですか？',
+        'choices': ['午後２時', '午後３時', '午後７時'],
+        'correct': '午後３時',
         'next_url': 'question4_2',
+        'image_url': '/static/images/question4_1.png',
     }
     return render(request, 'main/question_base.html', params)
 
 def question4_2_view(request):
     params = {
         'title': '小学4年生｜もんだい②',
-        'question': 'りんごが いくつ うれましたか？',
-        'choices': ['10こ', '30こ', '50こ'],
-        'correct': '30こ',
+        'sab_title': '次の表を見て問題に答えましょう。',
+        'question': '日曜日に勉強した人は何人ですか？',
+        'choices': ['２０人', '２１人', '３６人'],
+        'correct': '２１人',
         'next_url': 'question4_3',
+        'image_url': '/static/images/question4_2.png',
     }
     return render(request, 'main/question_base.html', params)
 
 def question4_3_view(request):
     params = {
         'title': '小学4年生｜もんだい③',
-        'question': 'りんごが いくつ うれましたか？',
-        'choices': ['10こ', '30こ', '50こ'],
-        'correct': '30こ',
+        'sab_title': '次の折れ線グラフを見て問題に答えましょう。',
+        'question': 'オーストラリアで気温がいちばん高かったのは何月ですか？',
+        'choices': ['１月', '８月', '１２月'],
+        'correct': '１月',
         'next_url': 'question4_4',
+        'image_url': '/static/images/question4_3.png',
     }
     return render(request, 'main/question_base.html', params)
 
 def question4_4_view(request):
     params = {
         'title': '小学4年生｜もんだい④',
-        'question': 'りんごが いくつ うれましたか？',
-        'choices': ['10こ', '30こ', '50こ'],
-        'correct': '30こ',
+        'sab_title': '次の表を見て問題に答えましょう。',
+        'question': 'おべんとうも、お茶も注文した人は何人ですか。？',
+        'choices': ['１２人', '１８人', '２３人'],
+        'correct': '１２人',
         'next_url': 'finish4',
+        'image_url': '/static/images/question4_4.png',
     }
     return render(request, 'main/question_base.html', params)
 

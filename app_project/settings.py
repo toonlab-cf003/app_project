@@ -138,3 +138,7 @@ MESSAGE_TAGS = {
 STATICFILES_DIRS = [
   BASE_DIR / 'main' / 'static',
 ]
+import os
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'main/static'),
+]

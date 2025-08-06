@@ -4,21 +4,25 @@
 {% block content %}
 <a href="{% url 'mypage' %}"><button>マイページ</button></a>
 
-<h1>{{ title }}</h1>
-<p>{{ question }}</p>
+<div class="question-container">
+  <div class="question-image">
+    <img src="{{ image_url }}" alt="もんだいの画像">
+  </div>
+  <div class="question-content">
+    <p class="title-style">{{ title }}</p>
+    <h2 class="sab-title">{{ sab_title }}</h2>
+    <p>{{ question }}</p>
+    <form action="{% url 'answer' %}" method="post">
+      {% csrf_token %}
+      {% for choice in choices %}
+        <input type="radio" name="answer" value="{{ choice }}"> {{ choice }}<br>
+      {% endfor %}
+      <input type="hidden" name="correct" value="{{ correct }}">
+      <input type="hidden" name="next_url" value="{{ next_url }}">
+      <input type="hidden" name="current_url" value="{{ request.resolver_match.url_name }}">
+      <input type="submit" value="こたえる">
+    </form>
+  </div>
+</div>
 
-<form action="{% url 'answer' %}" method="post">
-  {% csrf_token %}
-  {% for choice in choices %}
-    <input type="radio" name="answer" value="{{ choice }}"> {{ choice }}<br>
-  {% endfor %}
-
-  <input type="hidden" name="correct" value="{{ correct }}">
-  <input type="hidden" name="next_url" value="{{ next_url }}">
-  <input type="hidden" name="current_url" value="{{ request.resolver_match.url_name }}">
-  <input type="submit" value="こたえる">
-</form>
 {% endblock %}
-
-
-
