@@ -6,28 +6,36 @@
   <title>{% block title %}データのかつよう{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/timeline.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&family=Zen+Maru+Gothic&family=Yomogi&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="site-header">
-  {% if user.is_authenticated %}
-    <p class="login_message">ようこそ、{{ user.nickname }}{{ user.suffix }}！</p>
-    <form method="POST" action="{% url 'logout' %}" class="logout_btn_form">
-      {% csrf_token %}
-      <button type="submit" class="btn btn_right">ログアウト</button>
-    </form>
-
-    <a href="{% url 'mypage' %}">
-      <button class="btn">マイページ</button>
-    </a>
-  {% else %}
-    <div class="button-group">
-      <a href="{% url 'register' %}"><button class="btn">新規登録</button></a>
-      <a href="{% url 'login' %}"><button class="btn">ログイン</button></a>
+    <div class="header-left">
+      <a href="{% url 'index' %}">
+        <button class="btn btn-home">トップにもどる</button>
+      </a>
     </div>
-    <a href="{% url 'not_logged' %}">
-      <button class="btn btn_right">マイページ</button>
-    </a>
-  {% endif %}
+
+    <div class="header-right">
+      {% if user.is_authenticated %}
+        <p class="login_message">ようこそ、{{ user.nickname }}{{ user.suffix }}！</p>
+        <form method="POST" action="{% url 'logout' %}" class="logout_btn_form">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-cancel">ログアウト</button>
+        </form>
+        <a href="{% url 'mypage' %}">
+          <button class="btn btn-cancel">マイページ</button>
+        </a>
+      {% else %}
+        <div class="button-group">
+          <a href="{% url 'register' %}"><button class="btn btn-wrong">しんきとうろく</button></a>
+          <a href="{% url 'login' %}"><button class="btn btn-next">ログイン</button></a>
+        </div>
+        <a href="{% url 'not_logged' %}">
+          <button class="btn btn-cancel">マイページ</button>
+        </a>
+      {% endif %}
+    </div>
   </header>
 
   <main class="main-content">
@@ -47,7 +55,7 @@
     {% include 'main/timeline_embed.html' %}
   </div>
 
-  <button id="toggle-button">⬆</button>
+  <button id="toggle-button" class=" btn btn-wrong">⬆</button>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {

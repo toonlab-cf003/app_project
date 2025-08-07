@@ -1,35 +1,35 @@
 {% extends 'main/base.html' %}
 {% load static %}
-
-{% block title %}おめでとう！{% endblock %}
-
 {% block content %}
-<h1>おめでとう！正解だよ！</h1>
+<div class="correct-page">
+  <div class="correct-message">
+    <h1>おめでとう！正解だよ！</h1>
+    <p>① シールをえらぼう！</p>
+    <p>② 選んだら、シールをもらうボタンを押してね</p>
+    {% csrf_token %}
+    <input type="submit" value="シールをもらう" class="btn btn-wrong">
 
-{% if saved %}
-<p style="color: green;">「{{ saved_sticker }}」のシールを保存しました！</p>
+    {% if saved %}
+    <p style="color: green;">「{{ saved_sticker }}」のシールを保存しました！</p>
+    <a href="{% url next_url %}">
+      <button class="btn btn-next">つぎへ</button>
+    </a>
+    {% endif %}
+  </div>
 
-<a href="{% url next_url %}">
-  <button class="btn">つぎへ</button>
-</a>
-{% else %}
-<form class="sticker-form" action="{% url 'save_sticker' %}?next={{ next_url }}" method="post">
+{% if not saved %}
+  <form class="sticker-form" action="{% url 'save_sticker' %}?next={{ next_url }}" method="post">
   {% csrf_token %}
-  <p>シールをえらぼう！選んだら、シールをもらうボタンを押してね</p>
-  <input type="submit" value="シールをもらう" class="submit-button-top">
-  <small class="small-coment">スクロールできるよ</small>
-  <div class="sticker-grid">
-    {% for i in sticker_list %}
+    <small class="small-coment">スクロールできるよ</small>
+    <div class="sticker-grid">
+      {% for i in sticker_list %}
       <input type="radio" name="sticker" value="sticker_{{ i }}.jpg" id="sticker{{ i }}" required>
       <label for="sticker{{ i }}" class="sticker-label">
         <img src="{% static 'stickers/sticker_' %}{{ i }}.jpg" alt="シール{{ i }}">
       </label>
-    {% endfor %}
-  </div>
-</form>
+      {% endfor %}
+    </div>
+  </form>
 {% endif %}
-
-<a href="{% url 'index' %}">
-  <button class="btn">✖ トップページにもどる </button>
-</a>
+</div>
 {% endblock %}

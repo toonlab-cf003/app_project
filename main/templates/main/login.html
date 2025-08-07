@@ -3,20 +3,63 @@
 {% load static %}
 
 {% block content %}
-<h2>たんじょうびでログイン</h2>
-<p>ニックネームと誕生日を入力してね</p>
+<h1><span class="emoji">🎂</span> たんじょうびでログイン</h1>
 
-<form method="POST">
+<form method="POST" class="login_form">
   {% csrf_token %}
-  
-  <label>ニックネーム</label>
-  <input type="text" name="nickname" placeholder="例：でーたもん" required>
 
-  <label>誕生日（4けた）</label>
-  <input type="password" name="password" placeholder="例：1016" required>
+  <!-- ▼ 全体を中央に寄せるブロック ▼ -->
+  <div class="form-block">
+    <!-- ニックネーム -->
+    <label>ニックネーム</label><br>
+    <input type="text" name="nickname" placeholder="例：でーたもん" oninput="validateKana(this)" required>
+    <br><br>
 
-  <br><br>
-  <button type="submit" class="btn">ログイン</button>
+    <!-- うまれた日（数字4桁） -->
+    <label>うまれた日</label><br>
+    <div class="pin-input">
+      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" />
+      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" />
+      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" />
+      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" />
+    </div>
+    <input type="hidden" name="password" id="password-hidden" required>
 
+    <br>
+    <button type="submit" class="btn btn-start">ログイン</button>
+  </div>
 </form>
+
+
+<!-- JavaScript -->
+<script>
+  // ひらがな・カタカナ以外を除外
+  function validateKana(input) {
+    input.value = input.value.replace(/[^ぁ-んァ-ンー゛゜]/g, '');
+  }
+
+  // PIN入力：数字のみ、次へフォーカス、自動結合
+  const inputs = document.querySelectorAll('.pin-digit');
+  const hidden = document.getElementById('password-hidden');
+
+  inputs.forEach((input, i) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/[^0-9]/g, '');
+      if (input.value && i < inputs.length - 1) {
+        inputs[i + 1].focus();
+      }
+      updateHidden();
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === "Backspace" && !input.value && i > 0) {
+        inputs[i - 1].focus();
+      }
+    });
+  });
+
+  function updateHidden() {
+    hidden.value = Array.from(inputs).map(i => i.value).join('');
+  }
+</script>
+
 {% endblock %}

@@ -3,25 +3,22 @@
 {% block title %}マイページ{% endblock %}
 
 {% block content %}
-<h1>マイページ</h1>
+<h1 class="page-title">マイページ</h1>
 
 <div class="profile">
   <div class="icon">
-    <img src="{% static 'images/' %}{{ user.icon }}" alt="アイコン" width="80">
+    <img src="{% static 'images/' %}{{ user.icon }}" alt="アイコン" width="100">
   </div>
   <div class="nickname">{{ user.nickname }}</div>
 </div>
 
-<h2>あつめたシール</h2>
+<h2 class="section-title">あつめたシール</h2>
 <div class="stickers">
   {% for s in stickers %}
-    <span class="sticker">{{ s }}</span>
+    <img class="sticker-img" src="{% static 'stickers/' %}{{ s }}" alt="シール">
   {% empty %}
-    <p>まだシールがありません</p>
+    <p class="no-sticker">まだシールがありません</p>
   {% endfor %}
 </div>
 
-<a href="{% url 'index' %}">
-  <button class="btn">トップページにもどる</button>
-</a>
 {% endblock %}

@@ -2,8 +2,6 @@
 {% block title %}もんだい{% endblock %}
 
 {% block content %}
-<a href="{% url 'mypage' %}"><button class="btn">マイページ</button></a>
-
 <div class="question-container">
   <div class="question-image">
     <img src="{{ image_url }}" alt="もんだいの画像">
@@ -11,7 +9,7 @@
   <div class="question-content">
     <p class="title-style">{{ title }}</p>
     <h2 class="sab-title">{{ sab_title }}</h2>
-    <p>{{ question }}</p>
+    <p class="question-p">{{ question }}</p>
     <form action="{% url 'answer' %}" method="post">
       {% csrf_token %}
       {% for choice in choices %}
@@ -20,7 +18,7 @@
       <input type="hidden" name="correct" value="{{ correct }}">
       <input type="hidden" name="next_url" value="{{ next_url }}">
       <input type="hidden" name="current_url" value="{{ request.resolver_match.url_name }}">
-      <input type="submit" value="こたえる" class="btn>
+      <input type="submit" value="こたえる" class="btn">
     </form>
   </div>
 </div>
