@@ -5,20 +5,54 @@
 {% block content %}
 <h1 class="page-title">マイページ</h1>
 
-<div class="profile">
-  <div class="icon">
-    <img src="{% static 'images/' %}{{ user.icon }}" alt="アイコン" width="100">
+<div class="mypage-wrap">
+  <!-- 左カラム：プロフィール -->
+  <div class="profile-col">
+    <div class="profile">
+      <p class="rank-badge">称号：<strong>{{ rank_title }}</strong></p>
+
+      <div class="icon">
+        <img src="{% static 'images/' %}{{ user.icon }}" alt="アイコン" width="100">
+      </div>
+      <div class="nickname">{{ user.nickname }}{{ user.suffix }}</div>
+    </div>
   </div>
-  <div class="nickname">{{ user.nickname }}</div>
-</div>
 
-<h2 class="section-title">あつめたシール</h2>
-<div class="stickers">
-  {% for s in stickers %}
-    <img class="sticker-img" src="{% static 'stickers/' %}{{ s }}" alt="シール">
-  {% empty %}
-    <p class="no-sticker">まだシールがありません</p>
-  {% endfor %}
-</div>
+  <!-- 右カラム：あつめたシール -->
+  <div class="stickers-col">
+    <a class="section-title">あつめたシール</a>
+    <a class="section-count">ごうけい：　<strong>{{ sticker_count }}　</strong><small>まい</small></a>
+    <div class="stickers-grid">
+      {% for s in page_obj.object_list %}
+        <div class="sticker-box">
+          <img src="{% static 'stickers/' %}{{ s }}" alt="シール">
+        </div>
+      {% endfor %}
 
+      {# 空枠 #}
+      {% for _ in ""|center:empty_slots %}
+        <div class="sticker-box placeholder"></div>
+      {% endfor %}
+    </div>
+
+
+    {% if page_obj.paginator.num_pages > 1 %}
+      <div class="pagination">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">‹ 前へ</a>
+        {% else %}
+          <span class="page-btn disabled">‹ 前へ</span>
+        {% endif %}
+
+        <span class="page-info">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="page-btn">次へ ›</a>
+        {% else %}
+          <span class="page-btn disabled">次へ ›</span>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
 {% endblock %}

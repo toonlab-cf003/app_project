@@ -27,3 +27,18 @@ class CustomUser(AbstractUser):
 
     def display_name(self):
         return self.nickname + self.suffix
+    
+class Sticker(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='stickers'
+    )
+    filename = models.CharField(max_length=100)   # 例: "sticker_12.jpg"
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.user_id} - {self.filename}'

@@ -1,21 +1,21 @@
 from .forms import NicknameRegisterForm
 from .forms import PostForm
-from .models import Message, CustomUser
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from django.utils import timezone
+from .models import Message, Sticker
 from django.conf import settings
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
-from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 
-# トップページ -----------------------------------------------------------
+# トップページ --------------------------------------------------------------
 def index_view(request):
     messages = Message.objects.select_related('owner').order_by('-pub_date')
     form = PostForm(user=request.user)
@@ -37,12 +37,93 @@ def index_view(request):
     }
     return render(request, 'main/index.html', context)
 
+# ユーザー関連　-------------------------------------------------------------
+User = get_user_model()
 
-# 共通テストページ（あれば） ----------------------------------------------
-def question_view(request):
-    return render(request, 'main/question.html')
+# ----- ログイン　-----------------------------------------------------------
+def login_view(request):
+    if request.method == 'POST':
+        nickname = request.POST.get('nickname')
+        password = request.POST.get('password')
 
-# 各問題ページ -----------------------------------------------
+        try:
+            user = User.objects.get(nickname=nickname)
+            if user.check_password(password):
+                login(request, user)
+                messages.success(request, f"{user.nickname}さん、ログインしました！")
+                return redirect('index')
+            else:
+                messages.error(request, "パスワードがちがいます。")
+        except User.DoesNotExist:
+            messages.error(request, "ニックネームが見つかりません。")
+
+    return render(request, 'main/login.html')
+
+# ----- ログアウト　---------------------------------------------------------
+def logout_view(request):
+    logout(request)
+    return redirect('index')
+
+# ----- 未ログイン　---------------------------------------------------------
+def not_logged_view(request):
+    return render(request, 'main/not_logged.html')
+
+# ----- セッション保存 ------------------------------------------------------
+def register_view(request):
+    if request.method == 'POST':
+        request.session['nickname'] = request.POST['nickname']
+        request.session['suffix'] = request.POST.get('suffix', '')
+        return redirect('register_birthday')
+    return render(request, 'main/register.html')
+
+def register_birthday_view(request):
+    if request.method == 'POST':
+        request.session['birthday'] = request.POST['birthday']
+        return redirect('select_icon')
+    return render(request, 'main/register_birthday.html')
+
+def select_icon_view(request):
+    # 仮で10個の画像ファイル名
+    icons = [f'player_{str(i)}.jpg' for i in range(1, 16)]
+    return render(request, 'main/select_icon.html', {'icons': icons})
+
+def save_icon_view(request):
+    if request.method == 'POST':
+        icon = request.POST.get('icon')
+
+        nickname = request.session.get('nickname')
+        suffix = request.session.get('suffix')
+        birthday = request.session.get('birthday')
+
+        if not all([nickname, suffix, birthday]):
+            return redirect('register')
+
+        user = User.objects.create_user(
+            username='temp_user',
+            password=birthday,
+            nickname=nickname,
+            suffix=suffix,
+            icon=icon,
+        )
+        user.username = f"user_{user.id}"
+        user.save()
+
+        # ログインさせてセッションを整理
+        login(request, user)
+        for key in ['nickname', 'suffix', 'birthday']:
+            if key in request.session:
+                del request.session[key]
+        return redirect('register_done')
+    return redirect('select_icon')
+
+def register_done_view(request):
+    return render(request, 'main/register_done.html', {
+        'nickname': request.user.nickname,
+        'suffix': request.user.suffix,
+        'icon': request.user.icon,
+    })
+
+# 問題ページ ---------------------------------------------------------------
 def question2_1_view(request):
     params = {
         'title': '小学2年生｜もんだい①',
@@ -143,7 +224,7 @@ def question4_4_view(request):
     params = {
         'title': '小学4年生｜もんだい④',
         'sab_title': '次の表を見て問題に答えましょう。',
-        'question': 'おべんとうも、お茶も注文した人は何人ですか。？',
+        'question': 'おべんとうも、お茶も注文した人は何人ですか？',
         'choices': ['１２人', '１８人', '２３人'],
         'correct': '１２人',
         'next_url': 'finish4',
@@ -151,7 +232,7 @@ def question4_4_view(request):
     }
     return render(request, 'main/question_base.html', params)
 
-# 終了画面 -----------------------------------------------------------
+# ----- 終了画面 -----------------------------------------------------------
 def finish2_view(request):
     return render(request, 'main/finish2.html')
 
@@ -161,12 +242,12 @@ def finish3_view(request):
 def finish4_view(request):
     return render(request, 'main/finish4.html')
 
-# 回答処理（仮）-----------------------------------------------------------
+# ----- 回答処理 -----------------------------------------------------------
 def answer_view(request):
     if request.method == 'POST':
         selected = request.POST.get('answer')
         correct = request.POST.get('correct')
-        next_url = request.POST.get('next_url', 'index')  # ← ここで受け取る
+        next_url = request.POST.get('next_url', 'index')
         current_url = request.POST.get('current_url', 'index')
 
         if selected == correct:
@@ -176,7 +257,7 @@ def answer_view(request):
             return redirect(f'/wrong/?retry={current_url}')
     return redirect('index')
 
-# 結果ページ -----------------------------------------------------------
+# ----- 結果ページ ----------------------------------------------------------
 def correct_view(request):
     # セッション or POSTから next_url を取り出して使う
     next_url = request.GET.get('next', 'index')  # なければ index に戻る
@@ -193,35 +274,110 @@ def wrong_view(request):
     }
     return render(request, 'main/wrong.html', params)
 
-# シールを保存 -----------------------------------------------------------
+# マイページ ----------------------------------------------------------------
+def mypage_view(request):
+    qs = Sticker.objects.filter(user=request.user).order_by('-created_at')
+    filenames = list(qs.values_list('filename', flat=True))
+    sticker_count = qs.count()
+
+    paginator = Paginator(filenames, 10)
+    page_number = request.GET.get('page') or 1
+    page_obj = paginator.get_page(page_number)
+
+    current_page_count = len(page_obj.object_list)
+    empty_slots = max(0, 10 - current_page_count)
+
+    rank_title = _rank_title(sticker_count)
+
+    return render(request, 'main/mypage.html', {
+        'page_obj': page_obj,
+        'empty_slots': empty_slots,
+        'sticker_count': sticker_count,        # 合計
+        'current_page_count': current_page_count,
+        'rank_title': rank_title,              # マイページ用称号
+    })
+
+# ----- シールを保存 --------------------------------------------------------
 def save_sticker_view(request):
-    if request.method == 'POST':
-        sticker = request.POST.get('sticker')
-        next_url = request.GET.get('next', 'index')  # ←ここで受け取る！
+    if request.method != 'POST':
+        return redirect('index')
 
-        if sticker:
-            sticker_list = request.session.get('stickers', [])
-            sticker_list.append(sticker)
-            request.session['stickers'] = sticker_list
+    next_url = request.GET.get('next') or 'index'
+    sticker = request.POST.get('sticker')
 
-        # correct.html を再表示し、next_url を含める！
+    if not sticker:
         return render(request, 'main/correct.html', {
+            'saved': False,
             'next_url': next_url,
-            'saved': True,
-            'saved_sticker': sticker
+            'error': 'シールをえらんでね！',
         })
 
-    return redirect('index')
+    Sticker.objects.create(user=request.user, filename=sticker)
 
-# マイページで集めたシールを表示 --------------------------------------------
-def mypage_view(request):
-    stickers = request.session.get('stickers', [])
-    params = {
-        'stickers': stickers
-    }
-    return render(request, 'main/mypage.html', params)
+    # --- セッションにもミラー保存（互換用・任意） ---
+    sticker_list = request.session.get('stickers', [])
+    sticker_list.append(sticker)
+    request.session['stickers'] = sticker_list
+    request.session.modified = True
 
-# タイムライン表示と投稿処理　-----------------------------------------------
+    sticker_count = Sticker.objects.filter(user=request.user).count()
+
+    return render(request, 'main/correct.html', {
+        'saved': True,
+        'saved_sticker': sticker,
+        'sticker_count': sticker_count,
+        'next_url': next_url,
+    })
+
+# ----- 称号 ---------------------------------------------------------------
+def _rank_title(count: int) -> str:
+    if count <= 10:
+        return "かけだし"
+    elif count <= 20:
+        return "はんにんまえ"
+    elif count <= 30:
+        return "いちにんまえ"
+    elif count <= 40:
+        return "じゅくれん"
+    elif count <= 50:
+        return "たつじん"
+    elif count <= 60:
+        return "でんせつ"
+    else:
+        plus = ((count - 61) // 10) + 1
+        return f"でんせつ +{min(plus, 100)}"
+
+def save_sticker_view(request):
+    if request.method != 'POST':
+        return redirect('index')
+
+    next_url = request.GET.get('next') or 'index'
+    sticker = request.POST.get('sticker')
+
+    # 何も選んでない→正解画面に戻す
+    if not sticker:
+        return render(request, 'main/correct.html', {
+            'saved': False,
+            'next_url': next_url,
+            'error': 'シールをえらんでね！',
+        })
+
+    # DB保存（重複OK。重複禁止にするなら get_or_create に）
+    Sticker.objects.create(user=request.user, filename=sticker)
+
+    # 合計枚数＆称号を正解画面に表示
+    sticker_count = Sticker.objects.filter(user=request.user).count()
+    rank_title = _rank_title(sticker_count)
+
+    return render(request, 'main/correct.html', {
+        'saved': True,
+        'saved_sticker': sticker,
+        'sticker_count': sticker_count,
+        'rank_title': rank_title,
+        'next_url': next_url,
+    })
+
+# タイムライン表示と投稿処理　--------------------------------------------------
 def timeline_view(request):
     messages = Message.objects.all()
     form = PostForm(user=request.user if request.user.is_authenticated else None)
@@ -242,93 +398,3 @@ def timeline_view(request):
     }
     return render(request, 'main/timeline_embed.html', params)
 
-# ユーザー関連　----------------------------------------------------------
-User = get_user_model()
-# ステップ1：ニックネーム＋敬称を受け取り、セッション保存
-def register_view(request):
-    if request.method == 'POST':
-        request.session['nickname'] = request.POST['nickname']
-        request.session['suffix'] = request.POST.get('suffix', '')
-        return redirect('register_birthday')
-    return render(request, 'main/register.html')
-
-# ステップ2：誕生日を受け取り、セッションに保存 → select_iconへ
-def register_birthday_view(request):
-    if request.method == 'POST':
-        request.session['birthday'] = request.POST['birthday']
-        return redirect('select_icon')
-    return render(request, 'main/register_birthday.html')
-
-def select_icon_view(request):
-    # 仮で10個の画像ファイル名
-    icons = [f'player_{str(i)}.jpg' for i in range(1, 16)]
-    return render(request, 'main/select_icon.html', {'icons': icons})
-
-User = get_user_model()
-
-def save_icon_view(request):
-    if request.method == 'POST':
-        icon = request.POST.get('icon')
-
-        # ステップ1～2で保存したセッションデータを取得
-        nickname = request.session.get('nickname')
-        suffix = request.session.get('suffix')
-        birthday = request.session.get('birthday')
-
-        if not all([nickname, suffix, birthday]):
-            return redirect('register')  # 情報が足りなければ登録へ戻す
-
-        # ユーザーを作成（usernameは仮で作って、あとでIDで上書き）
-        user = User.objects.create_user(
-            username='temp_user',
-            password=birthday,
-            nickname=nickname,
-            suffix=suffix,
-            icon=icon,
-        )
-        user.username = f"user_{user.id}"
-        user.save()
-
-        # ログインさせてセッションを整理
-        login(request, user)
-        for key in ['nickname', 'suffix', 'birthday']:
-            if key in request.session:
-                del request.session[key]
-        return redirect('register_done')
-    return redirect('select_icon')
-
-def register_done_view(request):
-    return render(request, 'main/register_done.html', {
-        'nickname': request.user.nickname,
-        'suffix': request.user.suffix,
-        'icon': request.user.icon,
-    })
-
-# ログイン　----------------------------------------------------------
-def login_view(request):
-    if request.method == 'POST':
-        nickname = request.POST.get('nickname')
-        password = request.POST.get('password')
-
-        try:
-            user = User.objects.get(nickname=nickname)
-            if user.check_password(password):
-                login(request, user)
-                messages.success(request, f"{user.nickname}さん、ログインしました！")
-                return redirect('index')
-            else:
-                messages.error(request, "パスワードがちがいます。")
-        except User.DoesNotExist:
-            messages.error(request, "ニックネームが見つかりません。")
-
-    return render(request, 'main/login.html')
-
-# ログアウト　----------------------------------------------------------
-def logout_view(request):
-    logout(request)
-    return redirect('index')
-
-# 未ログイン　----------------------------------------------------------
-
-def not_logged_view(request):
-    return render(request, 'main/not_logged.html')

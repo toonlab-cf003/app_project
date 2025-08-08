@@ -8,15 +8,12 @@
 <form method="POST" class="login_form">
   {% csrf_token %}
 
-  <!-- ▼ 全体を中央に寄せるブロック ▼ -->
   <div class="form-block">
-    <!-- ニックネーム -->
-    <label>ニックネーム</label><br>
+    <p>ニックネーム</p>
     <input type="text" name="nickname" placeholder="例：でーたもん" oninput="validateKana(this)" required>
     <br><br>
 
-    <!-- うまれた日（数字4桁） -->
-    <label>うまれた日</label><br>
+    <p>うまれた日</p>
     <div class="pin-input">
       <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" />
       <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" />

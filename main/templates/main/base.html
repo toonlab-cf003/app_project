@@ -7,8 +7,9 @@
   <link rel="stylesheet" href="{% static 'css/timeline.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&family=Zen+Maru+Gothic&family=Yomogi&display=swap" rel="stylesheet">
+  {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
   <header class="site-header">
     <div class="header-left">
       <a href="{% url 'index' %}">
@@ -21,7 +22,7 @@
         <p class="login_message">ようこそ、{{ user.nickname }}{{ user.suffix }}！</p>
         <form method="POST" action="{% url 'logout' %}" class="logout_btn_form">
           {% csrf_token %}
-          <button type="submit" class="btn btn-cancel">ログアウト</button>
+          <button type="submit" class="btn btn-wrong">ログアウト</button>
         </form>
         <a href="{% url 'mypage' %}">
           <button class="btn btn-cancel">マイページ</button>

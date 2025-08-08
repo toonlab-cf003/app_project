@@ -1,35 +1,65 @@
 {% extends 'main/base.html' %}
 {% load static %}
+
+{% block body_class %}page-correct{% endblock %}
+
+{% block extra_css %}
+<style>
+  body.page-correct { background-color: #f5b5d194; }  /* 好きな色に */
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="correct-page">
-  <div class="correct-message">
-    <h1>おめでとう！正解だよ！</h1>
-    <p>① シールをえらぼう！</p>
-    <p>② 選んだら、シールをもらうボタンを押してね</p>
-    {% csrf_token %}
-    <input type="submit" value="シールをもらう" class="btn btn-wrong">
-
-    {% if saved %}
-    <p style="color: green;">「{{ saved_sticker }}」のシールを保存しました！</p>
-    <a href="{% url next_url %}">
-      <button class="btn btn-next">つぎへ</button>
-    </a>
-    {% endif %}
+{% if saved %}
+  <div class="saved-box">
+    <h2>シールをゲット！</h2>
+    <img src="{% static 'stickers/' %}{{ saved_sticker }}" 
+         alt="選んだシール" width="100" height="100">
+    <p>シールは、<strong>{{ sticker_count }}</strong> まい あつまってるよ！</p>
+    <a href="{% url next_url %}" class="btn btn-next">つぎへ</a>
   </div>
+  
+{# 紙吹雪（Canvas Confetti） #}
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    // ふわっと複数回
+    function burst() {
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { x: Math.random()*0.4 + 0.3, y: 0.6 } // 画面中央付近
+      });
+    }
+    // 最初にドン！
+    burst();
+    // 追加で数回
+    setTimeout(burst, 400);
+    setTimeout(burst, 900);
+  </script>
 
-{% if not saved %}
-  <form class="sticker-form" action="{% url 'save_sticker' %}?next={{ next_url }}" method="post">
-  {% csrf_token %}
-    <small class="small-coment">スクロールできるよ</small>
-    <div class="sticker-grid">
-      {% for i in sticker_list %}
-      <input type="radio" name="sticker" value="sticker_{{ i }}.jpg" id="sticker{{ i }}" required>
-      <label for="sticker{{ i }}" class="sticker-label">
-        <img src="{% static 'stickers/sticker_' %}{{ i }}.jpg" alt="シール{{ i }}">
-      </label>
-      {% endfor %}
+{% else %}
+  <form class="correct-page" action="{% url 'save_sticker' %}?next={{ next_url }}" method="post">
+    {% csrf_token %}
+
+    <div class="correct-message">
+      <h1>おめでとう🎉正解だよ！</h1>
+      <p>① シールをえらぼう！</p>
+      <p>② 選んだら、シールをもらうボタンを押してね</p>
+      <input type="submit" value="シールをもらう" class="btn btn-wrong">
+    </div>
+
+    <div class="sticker-form">
+      <small class="small-coment">スクロールできるよ</small>
+      <div class="sticker-grid">
+        {% for i in sticker_list %}
+          <input type="radio" name="sticker" value="sticker_{{ i }}.jpg" id="sticker{{ i }}" required>
+          <label for="sticker{{ i }}" class="sticker-label">
+            <img src="{% static 'stickers/sticker_' %}{{ i }}.jpg" alt="シール{{ i }}">
+          </label>
+        {% endfor %}
+      </div>
     </div>
   </form>
 {% endif %}
-</div>
+
 {% endblock %}
