@@ -105,7 +105,7 @@ def save_icon_view(request):
             suffix=suffix,
             icon=icon,
         )
-        user.username = f"user_{user.id}"
+        user.username = f"{user.id}:{user.nickname}"
         user.save()
 
         # ログインさせてセッションを整理

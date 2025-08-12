@@ -12,13 +12,20 @@
     <p class="question-p">{{ question }}</p>
     <form action="{% url 'answer' %}" method="post">
       {% csrf_token %}
-      {% for choice in choices %}
-        <input type="radio" name="answer" value="{{ choice }}"> {{ choice }}<br>
-      {% endfor %}
-      <input type="hidden" name="correct" value="{{ correct }}">
-      <input type="hidden" name="next_url" value="{{ next_url }}">
-      <input type="hidden" name="current_url" value="{{ request.resolver_match.url_name }}">
-      <input type="submit" value="こたえる" class="btn">
+      
+      <div class="choices-container">
+        {% for choice in choices %}
+          <input type="radio" name="answer" value="{{ choice }}" id="choice{{ forloop.counter }}">
+          <label for="choice{{ forloop.counter }}" class="choice-btn">{{ choice }}</label>
+        {% endfor %}
+      </div>
+
+      <div class="submit-container">
+        <input type="hidden" name="correct" value="{{ correct }}">
+        <input type="hidden" name="next_url" value="{{ next_url }}">
+        <input type="hidden" name="current_url" value="{{ request.resolver_match.url_name }}">
+        <input type="submit" value="こたえる" class="btn btn-next">
+      </div>
     </form>
   </div>
 </div>

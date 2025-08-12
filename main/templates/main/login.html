@@ -10,15 +10,16 @@
 
   <div class="form-block">
     <p>ニックネーム</p>
-    <input type="text" name="nickname" placeholder="例：でーたもん" oninput="validateKana(this)" required>
+    <input class="nickname-input" type="text" name="nickname" placeholder="例：ちょこ"
+           autocomplete="off" autocapitalize="off" required>
     <br><br>
 
     <p>うまれた日</p>
     <div class="pin-input">
-      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" />
-      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" />
-      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" />
-      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" />
+      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="0">
+      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="1">
+      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="2">
+      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="3">
     </div>
     <input type="hidden" name="password" id="password-hidden" required>
 
@@ -26,37 +27,4 @@
     <button type="submit" class="btn btn-start">ログイン</button>
   </div>
 </form>
-
-
-<!-- JavaScript -->
-<script>
-  // ひらがな・カタカナ以外を除外
-  function validateKana(input) {
-    input.value = input.value.replace(/[^ぁ-んァ-ンー゛゜]/g, '');
-  }
-
-  // PIN入力：数字のみ、次へフォーカス、自動結合
-  const inputs = document.querySelectorAll('.pin-digit');
-  const hidden = document.getElementById('password-hidden');
-
-  inputs.forEach((input, i) => {
-    input.addEventListener('input', () => {
-      input.value = input.value.replace(/[^0-9]/g, '');
-      if (input.value && i < inputs.length - 1) {
-        inputs[i + 1].focus();
-      }
-      updateHidden();
-    });
-    input.addEventListener('keydown', (e) => {
-      if (e.key === "Backspace" && !input.value && i > 0) {
-        inputs[i - 1].focus();
-      }
-    });
-  });
-
-  function updateHidden() {
-    hidden.value = Array.from(inputs).map(i => i.value).join('');
-  }
-</script>
-
 {% endblock %}
