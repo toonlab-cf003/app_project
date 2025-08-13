@@ -1,5 +1,7 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% block title %}トップページ{% endblock %}
+{% block body_class %}page-index{% endblock %}
 
 {% block content %}
 <main class="main-content index-content">
@@ -13,6 +15,5 @@
     {% endif %}
       </div>
   </div>
-
 </main>
 {% endblock %}

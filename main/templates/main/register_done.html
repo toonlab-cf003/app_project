@@ -1,19 +1,18 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% block title %}登録完了ページ{% endblock %}
+{% block body_class %}page-register_done{% endblock %}
 
 {% block content %}
 <main class="main-content">
-
-<div class="register-done-container">
-    <div class="player-info">
-        <div class="icon-circle">
-            <img src="{% static 'images/'|add:icon %}" alt="アイコン">
+    <div class="register-done-container">
+        <div class="player-info">
+            <div class="icon-circle">
+                <img src="{% static 'images/'|add:icon %}" alt="アイコン">
+            </div>
+            <span class="player-name">{{ nickname }}{{ suffix }}</span>
         </div>
-        <span class="player-name">{{ nickname }}{{ suffix }}</span>
+        <p class="done-message">プレイヤー登録完了！</p>
     </div>
-
-    <p class="done-message">プレイヤー登録完了！</p>
-</div>
 </main>
-
 {% endblock %}

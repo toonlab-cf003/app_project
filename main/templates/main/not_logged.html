@@ -1,20 +1,20 @@
 {% extends 'main/base.html' %}
-{% block title %}マイページ{% endblock %}
+
+{% block title %}No!マイページ{% endblock %}
+{% block body_class %}page-not_logged{% endblock %}
 
 {% block content %}
 <main class="main-content">
-
-<h2>しんきとうろく か ログインしてね</h2>
-{% if user.is_authenticated %}
+  <h2>しんきとうろく か ログインしてね</h2>
+  {% if user.is_authenticated %}
   <a href="{% url 'mypage' %}">
     <button class="btn btn-cancel">マイページ</button>
   </a>
-{% else %}
+  {% else %}
   <div class="button-group not_log">
     <a href="{% url 'register' %}"><button class="btn btn-start">しんきとうろく</button></a>
     <a href="{% url 'login' %}"><button class="btn btn-next">ログイン</button></a>
   </div>
-{% endif %}
+  {% endif %}
 </main>
-
 {% endblock %}

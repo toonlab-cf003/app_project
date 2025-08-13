@@ -1,34 +1,29 @@
 {% extends 'main/base.html' %}
-{% block title %}ログイン{% endblock %}
 {% load static %}
+{% block title %}ログイン{% endblock %}
+{% block body_class %}page-login{% endblock %}
+
 
 {% block content %}
 <main class="main-content">
-
-<h1><span class="emoji">🎂</span> たんじょうびでログイン</h1>
-
-<form method="POST" class="login_form">
-  {% csrf_token %}
-
-  <div class="form-block">
-    <p>ニックネーム</p>
-    <input class="nickname-input" type="text" name="nickname" placeholder="例：ちょこ"
-           autocomplete="off" autocapitalize="off" required>
-    <br><br>
-
-    <p>うまれた日</p>
-    <div class="pin-input">
-      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="0">
-      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="1">
-      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="2">
-      <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="3">
+  <h1><span class="emoji">🎂</span> たんじょうびでログイン</h1>
+  <form method="POST" class="login_form">
+    {% csrf_token %}
+    <div class="form-block">
+      <p>ニックネーム</p>
+      <input class="nickname-input" type="text" name="nickname" placeholder="例：ちょこ" autocomplete="off" autocapitalize="off" maxlength="8" required>
+      <br><br>
+      <p>うまれた日</p>
+      <div class="pin-input">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="0">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="1">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="2">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="3">
+      </div>
+      <input type="hidden" name="password" id="password-hidden" required>
+      <br>
+      <button type="submit" class="btn btn-start">ログイン</button>
     </div>
-    <input type="hidden" name="password" id="password-hidden" required>
-
-    <br>
-    <button type="submit" class="btn btn-start">ログイン</button>
-  </div>
-</form>
+  </form>
 </main>
-
 {% endblock %}

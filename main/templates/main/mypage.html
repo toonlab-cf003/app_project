@@ -1,62 +1,52 @@
 {% extends 'main/base.html' %}
 {% load static %}
 {% block title %}マイページ{% endblock %}
+{% block body_class %}page-mypage{% endblock %}
 
 {% block content %}
 <main class="main-content">
-
-<h1 class="page-title">マイページ</h1>
-
-<div class="mypage-wrap">
-  <!-- 左カラム：プロフィール -->
-  <div class="profile-col">
-    <div class="profile">
-      <p class="rank-badge">称号：<strong>{{ rank_title }}</strong></p>
-
-      <div class="icon">
-        <img src="{% static 'images/' %}{{ user.icon }}" alt="アイコン" width="100">
-      </div>
-      <div class="nickname">{{ user.nickname }}{{ user.suffix }}</div>
-    </div>
-  </div>
-
-  <!-- 右カラム：あつめたシール -->
-  <div class="stickers-col">
-    <a class="section-title">あつめたシール</a>
-    <a class="section-count">ごうけい：　<strong>{{ sticker_count }}　</strong><small>まい</small></a>
-    <div class="stickers-grid">
-      {% for s in page_obj.object_list %}
-        <div class="sticker-box">
-          <img src="{% static 'stickers/' %}{{ s }}" alt="シール">
+  <h1 class="page-title">マイページ</h1>
+  <div class="mypage-wrap">
+    <div class="profile-col">
+      <div class="profile">
+        <p class="rank-badge">称号：<strong>{{ rank_title }}</strong></p>
+        <div class="icon">
+          <img src="{% static 'images/' %}{{ user.icon }}" alt="アイコン">
         </div>
-      {% endfor %}
-
-      {# 空枠 #}
-      {% for _ in ""|center:empty_slots %}
-        <div class="sticker-box inactive"></div>
-      {% endfor %}
-    </div>
-
-
-    {% if page_obj.paginator.num_pages > 1 %}
-      <div class="pagination">
-        {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">‹ 前へ</a>
-        {% else %}
-          <span class="page-btn disabled">‹ 前へ</span>
-        {% endif %}
-
-        <span class="page-info">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
-
-        {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}" class="page-btn">次へ ›</a>
-        {% else %}
-          <span class="page-btn disabled">次へ ›</span>
-        {% endif %}
+        <div class="nickname">{{ user.nickname }}{{ user.suffix }}</div>
       </div>
-    {% endif %}
+    </div>
+    <div class="stickers-col">
+      <a class="section-title">あつめたシール</a>
+      <a class="section-count">
+        ごうけい：　<strong>{{ sticker_count }}　</strong><small>まい</small>
+      </a>
+      <div class="stickers-grid">
+        {% for s in page_obj.object_list %}
+          <div class="sticker-box">
+            <img src="{% static 'stickers/' %}{{ s }}" alt="シール">
+          </div>
+        {% endfor %}
+        {% for _ in ""|center:empty_slots %}
+          <div class="sticker-box inactive"></div>
+        {% endfor %}
+      </div>
+      {% if page_obj.paginator.num_pages > 1 %}
+        <div class="pagination">
+          {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">‹ 前へ</a>
+          {% else %}
+            <span class="page-btn disabled">‹ 前へ</span>
+          {% endif %}
+          <span class="page-info">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="page-btn">次へ ›</a>
+          {% else %}
+            <span class="page-btn disabled">次へ ›</span>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
   </div>
-</div>
 </main>
-
 {% endblock %}

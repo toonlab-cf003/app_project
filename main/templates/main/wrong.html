@@ -1,23 +1,14 @@
 {% extends 'main/base.html' %}
-{% block title %}ざんねん…{% endblock %}
 
+{% block title %}ざんねんページ{% endblock %}
 {% block body_class %}page-wrong{% endblock %}
-
-{% block extra_css %}
-<style>
-  body.page-wrong { background-color: #b5d1f594; }  /* 好きな色に */
-</style>
-{% endblock %}
 
 {% block content %}
 <main class="main-content">
-
   <h1>ざんねん…</h1>
   <p>もういちど ちょうせんしてみよう！</p>
-
   <a href="{% url retry_url %}">
     <button class="btn btn-next">もう１かい</button>
   </a>
 </main>
-
 {% endblock %}

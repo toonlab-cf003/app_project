@@ -1,36 +1,35 @@
 {% extends 'main/base.html' %}
-{% block title %}もんだい{% endblock %}
+
+{% block title %}もんだいページ{% endblock %}
+{% block body_class %}page-question_base{% endblock %}
 
 {% block content %}
 <main class="main-content">
-
-<div class="question-container">
-  <div class="question-image">
-    <img src="{{ image_url }}" alt="もんだいの画像">
+  <div class="question-container">
+    <div class="question-image">
+      <img src="{{ image_url }}" alt="もんだいの画像">
+    </div>
+    <div class="question-content">
+      <p class="title-style page-title">{{ title }}</p>
+      <h2 class="sab-title">{{ sab_title }}</h2>
+      <p class="question-p">{{ question }}</p>
+      <form action="{% url 'answer' %}" method="post">
+        {% csrf_token %}
+        <div class="choices-container">
+          {% for choice in choices %}
+            <input type="radio" name="answer" value="{{ choice }}" id="choice{{ forloop.counter }}">
+            <label for="choice{{ forloop.counter }}" class="choice-btn">{{ choice }}</label>
+          {% endfor %}
+        </div>
+        <div class="submit-container">
+          <input type="hidden" name="correct" value="{{ correct }}">
+          <input type="hidden" name="next_url" value="{{ next_url }}">
+          <input type="hidden" name="current_url" value="{{ request.resolver_match.url_name }}">
+          <input type="submit" value="こたえる" class="btn btn-next">
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="question-content">
-    <p class="title-style page-title">{{ title }}</p>
-    <h2 class="sab-title">{{ sab_title }}</h2>
-    <p class="question-p">{{ question }}</p>
-    <form action="{% url 'answer' %}" method="post">
-      {% csrf_token %}
-      
-      <div class="choices-container">
-        {% for choice in choices %}
-          <input type="radio" name="answer" value="{{ choice }}" id="choice{{ forloop.counter }}">
-          <label for="choice{{ forloop.counter }}" class="choice-btn">{{ choice }}</label>
-        {% endfor %}
-      </div>
-
-      <div class="submit-container">
-        <input type="hidden" name="correct" value="{{ correct }}">
-        <input type="hidden" name="next_url" value="{{ next_url }}">
-        <input type="hidden" name="current_url" value="{{ request.resolver_match.url_name }}">
-        <input type="submit" value="こたえる" class="btn btn-next">
-      </div>
-    </form>
-  </div>
-</div>
 </main>
 
 {% endblock %}

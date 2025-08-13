@@ -1,18 +1,10 @@
 {% extends 'main/base.html' %}
 {% load static %}
-{% block title %}おめでとう！{% endblock %}
-
+{% block title %}おめでとうページ{% endblock %}
 {% block body_class %}page-correct{% endblock %}
-
-{% block extra_css %}
-<style>
-  body.page-correct { background-color: #f5b5d194; }
-</style>
-{% endblock %}
 
 {% block content %}
 <main class="main-content">
-
 {% if saved %}
   <div class="saved-box">
     <h2>シールをゲット！</h2>
@@ -21,8 +13,7 @@
     <p>シールは、<strong>{{ sticker_count }}</strong> まい あつまってるよ！</p>
     <a href="{% url next_url %}" class="btn btn-next">つぎへ</a>
   </div>
-  
-{# 紙吹雪（Canvas Confetti） #}
+  {# 紙吹雪（Canvas Confetti） #}
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
     // ふわっと複数回
@@ -43,14 +34,12 @@
 {% else %}
   <form class="correct-page" action="{% url 'save_sticker' %}?next={{ next_url }}" method="post">
     {% csrf_token %}
-
     <div class="correct-message">
       <h1>おめでとう🎉正解だよ！</h1>
       <p>① シールをえらぼう！</p>
       <p>② 選んだら、シールをもらうボタンを押してね</p>
       <input type="submit" value="シールをもらう" class="btn btn-wrong">
     </div>
-
     <div class="sticker-form">
       <small class="small-coment">スクロールできるよ</small>
       <div class="sticker-grid">

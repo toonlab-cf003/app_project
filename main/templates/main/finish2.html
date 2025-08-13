@@ -1,16 +1,15 @@
 {% extends 'main/base.html' %}
-{% block title %}おつかれさま！{% endblock %}
+
+{% block title %}２年生終了！{% endblock %}
+{% block body_class %}page-finish2{% endblock %}
 
 {% block content %}
 <main class="main-content">
-
-<h1>おつかれさま！</h1>
-<p>小学2年生の もんだいは ぜんぶ しゅうりょうだよ！</p>
-<p>すごいね、がんばったね 🎉</p>
-
-<a href="{% url 'question3_1' %}">
-  <button class="btn btn-next">つぎは 3年生に ちょうせん！</button>
-</a>
+  <h1>おつかれさま！</h1>
+  <p>小学2年生の もんだいは ぜんぶ しゅうりょうだよ！</p>
+  <p>すごいね、がんばったね 🎉</p>
+  <a href="{% url 'question3_1' %}">
+    <button class="btn btn-next">つぎは 3年生に ちょうせん！</button>
+  </a>
 </main>
-
 {% endblock %}

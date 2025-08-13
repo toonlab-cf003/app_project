@@ -1,25 +1,22 @@
 {% extends 'main/base.html' %}
 {% load static %}
-
-{% block title %}アイコンをえらぼう{% endblock %}
+{% block title %}アイコン選択ページ{% endblock %}
+{% block body_class %}page-select_icon{% endblock %}
 
 {% block content %}
 <main class="main-content">
-
-<h2>アイコンをえらぼう！</h2>
-<p>好きなアイコンをクリックしてね</p>
-
-<div class="icon-grid">
-  {% for icon in icons %}
-    <form method="POST" action="{% url 'save_icon' %}">
-      {% csrf_token %}
-      <input type="hidden" name="icon" value="{{ icon }}">
-      <button class="icon-button" type="submit">
-        <img src="{% static 'images/'|add:icon %}" alt="アイコン{{ forloop.counter }}" width="80" height="80">
-      </button>
-    </form>
-  {% endfor %}
-</div>
+  <h2>アイコンをえらぼう！</h2>
+  <p>好きなアイコンをクリックしてね</p>
+  <div class="icon-grid">
+    {% for icon in icons %}
+      <form method="POST" action="{% url 'save_icon' %}">
+        {% csrf_token %}
+        <input type="hidden" name="icon" value="{{ icon }}">
+        <button class="icon-button" type="submit">
+          <img src="{% static 'images/'|add:icon %}" alt="アイコン{{ forloop.counter }}" width="80" height="80">
+        </button>
+      </form>
+    {% endfor %}
+  </div>
 </main>
-
 {% endblock %}

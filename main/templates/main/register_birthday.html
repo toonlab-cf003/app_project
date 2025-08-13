@@ -1,29 +1,27 @@
 {% extends 'main/base.html' %}
 {% load static %}
 {% block title %}たんじょうび登録{% endblock %}
+{% block body_class %}page-register_birthday{% endblock %}
 
 {% block content %}
 <main class="main-content">
-
-<div class="reg-pin-container">
-  <h2>たんじょうびをいれてね</h2>
-
-  <form method="POST" action="{% url 'register_birthday' %}">
-    {% csrf_token %}
-    <div class="reg-pin-block">
-      <p>うまれた日</p>
-      <div class="reg-pin-input">
-        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="0">
-        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="1">
-        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="2">
-        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="3">
+  <div class="reg-pin-container">
+    <h2>たんじょうびをいれてね</h2>
+    <form method="POST" action="{% url 'register_birthday' %}">
+      {% csrf_token %}
+      <div class="reg-pin-block">
+        <p>うまれた日</p>
+        <div class="reg-pin-input">
+          <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="0">
+          <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="1">
+          <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="2">
+          <input type="text" maxlength="1" inputmode="numeric" pattern="\d*" class="pin-digit" placeholder="3">
+        </div>
+        <input type="hidden" name="birthday" id="birthday-hidden" required>
+        <br><br>
+        <button type="submit" class="btn btn-next">つぎへ</button>
       </div>
-      <input type="hidden" name="birthday" id="birthday-hidden" required>
-      <br><br>
-      <button type="submit" class="btn btn-next">つぎへ</button>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 </main>
-
 {% endblock %}
