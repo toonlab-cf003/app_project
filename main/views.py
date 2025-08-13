@@ -1,6 +1,5 @@
 from .forms import NicknameRegisterForm
-from .forms import PostForm
-from .models import Message, Sticker
+from .models import Sticker
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -13,29 +12,15 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils import timezone
 
-# トップページ --------------------------------------------------------------
+# topページ --------------------------------------------------------------
 def index_view(request):
-    messages = Message.objects.select_related('owner').order_by('-pub_date')
-    form = PostForm(user=request.user)
+    return render(request, 'main/index.html')
 
-    if request.method == 'POST':
-        form = PostForm(user=request.user, data=request.POST)
-        if form.is_valid():
-            message = Message(
-                owner=request.user,
-                content=form.cleaned_data['content'],
-                pub_date=timezone.now()
-            )
-            message.save()
-            return redirect('index')  # indexに戻る
-
-    context = {
-        'messages': messages,
-        'form': form,
-    }
-    return render(request, 'main/index.html', context)
+# 問題選択ページ --------------------------------------------------------------
+@login_required
+def problem_select(request):
+    return render(request, 'main/problem_select.html')
 
 # ユーザー関連　-------------------------------------------------------------
 User = get_user_model()
@@ -376,25 +361,4 @@ def save_sticker_view(request):
         'rank_title': rank_title,
         'next_url': next_url,
     })
-
-# タイムライン表示と投稿処理　--------------------------------------------------
-def timeline_view(request):
-    messages = Message.objects.all()
-    form = PostForm(user=request.user if request.user.is_authenticated else None)
-
-    if request.method == 'POST':
-        form = PostForm(user=request.user if request.user.is_authenticated else None, data=request.POST)
-        if form.is_valid():
-            message = Message()
-            message.owner = request.user
-            message.content = form.cleaned_data['content']
-            message.pub_date = timezone.now()
-            message.save()
-            return redirect('timeline')
-
-    params = {
-        'messages': messages,
-        'form': form,
-    }
-    return render(request, 'main/timeline_embed.html', params)
 

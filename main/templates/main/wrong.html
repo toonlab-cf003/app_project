@@ -10,12 +10,14 @@
 {% endblock %}
 
 {% block content %}
+<main class="main-content">
+
   <h1>ざんねん…</h1>
   <p>もういちど ちょうせんしてみよう！</p>
 
   <a href="{% url retry_url %}">
     <button class="btn btn-next">もう１かい</button>
   </a>
+</main>
 
-  {% include 'main/timeline_embed.html' %}
 {% endblock %}

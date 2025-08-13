@@ -2,19 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
-# Message（コメント）モデル
-class Message(models.Model):
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    content = models.TextField(max_length=1000)
-    good_count = models.IntegerField(default=0)
-    pub_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.content} ({self.owner})'
-
-    class Meta:
-        ordering = ['-pub_date']
-
 # アカウント登録
 class CustomUser(AbstractUser):
     nickname = models.CharField(max_length=20)
@@ -34,7 +21,7 @@ class Sticker(models.Model):
         on_delete=models.CASCADE,
         related_name='stickers'
     )
-    filename = models.CharField(max_length=100)   # 例: "sticker_12.jpg"
+    filename = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

@@ -7,6 +7,8 @@ urlpatterns = [
     path('', views.index_view, name='index'),
 
     # クイズ（学年別・問題別）------------------------------------------
+    path('problems/select/', views.problem_select, name='problem_select'), 
+
     path('question2_1/', views.question2_1_view, name='question2_1'),
     path('question2_2/', views.question2_2_view, name='question2_2'),
     path('question3_1/', views.question3_1_view, name='question3_1'),
@@ -27,10 +29,6 @@ urlpatterns = [
     path('wrong/', views.wrong_view, name='wrong'),
     path('save_sticker/', views.save_sticker_view, name='save_sticker'),
     path('mypage/', views.mypage_view, name='mypage'),
-
-
-    # タイムライン関連 ----------------------------------------------------
-    path('timeline/', views.timeline_view, name='timeline'),
 
     # ユーザー関連 ----------------------------------------------------
     path('login/', views.login_view, name='login'),

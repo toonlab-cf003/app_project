@@ -39,38 +39,17 @@
     </div>
   </header>
 
+  {% block content %}
   <main class="main-content">
-    {% block content %}
     {% if messages %}
-      <ul class="message-list">
-        {% for message in messages %}
-          <li class="message {{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
+    <ul class="message-list">
+      {% for message in messages %}
+      <li class="message {{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
     {% endif %}
-    {% endblock %}
   </main>
-
-  <!-- タイムライン -->
-  <div id="timeline-box" style="display: none;">
-    {% include 'main/timeline_embed.html' %}
-  </div>
-
-  <button id="toggle-button" class=" btn btn-wrong">⬆</button>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const button = document.getElementById('toggle-button');
-      const box = document.getElementById('timeline-box');
-      let isVisible = false;
-
-      button.addEventListener('click', function () {
-        isVisible = !isVisible;
-        box.style.display = isVisible ? 'block' : 'none';
-        button.textContent = isVisible ? '⬇' : '⬆';  // 表示に応じて矢印変更
-      });
-    });
-  </script>
+  {% endblock %}
 
   {% block extra_js %}{% endblock %}
   

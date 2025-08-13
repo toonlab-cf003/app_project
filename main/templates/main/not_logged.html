@@ -2,6 +2,7 @@
 {% block title %}マイページ{% endblock %}
 
 {% block content %}
+<main class="main-content">
 
 <h2>しんきとうろく か ログインしてね</h2>
 {% if user.is_authenticated %}
@@ -14,4 +15,6 @@
     <a href="{% url 'login' %}"><button class="btn btn-next">ログイン</button></a>
   </div>
 {% endif %}
+</main>
+
 {% endblock %}
