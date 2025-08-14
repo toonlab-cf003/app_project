@@ -17,10 +17,11 @@
       </div>
     </div>
     <div class="stickers-col">
-      <a class="section-title">あつめたシール</a>
-      <a class="section-count">
-        ごうけい：　<strong>{{ sticker_count }}　</strong><small>まい</small>
-      </a>
+      <div class="stickers-title">
+        <a class="section-title">あつめたシール</a>
+        <a class="section-count">ごうけい：　<strong>{{ sticker_count }}　</strong><small>まい</small></a>
+      </div>
+      
       <div class="stickers-grid">
         {% for s in page_obj.object_list %}
           <div class="sticker-box">

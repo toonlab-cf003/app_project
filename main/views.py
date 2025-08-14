@@ -81,7 +81,7 @@ def save_icon_view(request):
         birthday = request.session.get('birthday')
 
         if not all([nickname, suffix, birthday]):
-            return redirect('register')
+            return redirect('select_icon')
 
         user = User.objects.create_user(
             username='temp_user',
@@ -173,7 +173,7 @@ def question4_1_view(request):
     params = {
         'title': '小学4年生｜もんだい①',
         'sab_title': '次の折れ線グラフを見て問題に答えましょう。',
-        'question': 'プールの水の温度が いちばん高かったのは 何時ですか？',
+        'question': 'プールの水の温度がいちばん高かったのは何時ですか？',
         'choices': ['午後２時', '午後３時', '午後７時'],
         'correct': '午後３時',
         'next_url': 'question4_2',
@@ -185,7 +185,7 @@ def question4_2_view(request):
     params = {
         'title': '小学4年生｜もんだい②',
         'sab_title': '次の表を見て問題に答えましょう。',
-        'question': '日曜日に勉強した人は何人ですか？',
+        'question': '日曜日に勉強した人は 何人ですか？',
         'choices': ['２０人', '２１人', '３６人'],
         'correct': '２１人',
         'next_url': 'question4_3',
@@ -197,7 +197,7 @@ def question4_3_view(request):
     params = {
         'title': '小学4年生｜もんだい③',
         'sab_title': '次の折れ線グラフを見て問題に答えましょう。',
-        'question': 'オーストラリアで気温がいちばん高かったのは何月ですか？',
+        'question': 'オーストラリアで気温がいちばん高いのは何月ですか？',
         'choices': ['１月', '８月', '１２月'],
         'correct': '１月',
         'next_url': 'question4_4',

@@ -38,18 +38,7 @@
     </div>
   </header>
 
-  {% block content %}
-  <main class="main-content">
-    {% if messages %}
-    <ul class="message-list">
-      {% for message in messages %}
-      <li class="message {{ message.tags }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </main>
-  {% endblock %}
-
+  {% block content %}{% endblock %}
   {% block extra_js %}{% endblock %}
   
   <footer class="footer">

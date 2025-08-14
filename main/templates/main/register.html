@@ -12,18 +12,27 @@
       {% csrf_token %}
       <div class="form-row">
         <input class="nickname-input" type="text" name="nickname" placeholder="例：ちょこ" maxlength="8" required>
-        <select class="suffix-select" name="suffix">
-          <option value="">(なし)</option>
+        <select class="suffix-select" name="suffix" id="suffix" required>
+          <option value="" disabled selected>選んでね</option>
           <option value="さん">さん</option>
           <option value="くん">くん</option>
           <option value="ちゃん">ちゃん</option>
+          <option value="NONE">(なし)</option>
         </select>
       </div>
       <p><small>ひらがな と カタカナ だけで 入力してね<br>8もじ まで 入力できるよ</small></p>
       <input type="hidden" name="username" value="temp_user_{{ form.nickname.value|default:'new' }}">
       <input type="hidden" name="password1" value="temporary_password">
       <input type="hidden" name="password2" value="temporary_password">
-      <button class="btn btn-wrong" type="submit" >つぎへ</button>
+      <button class="btn btn-wrong" id="next-btn" type="submit" disabled>つぎへ</button>
+      <script>
+        // 視覚的にも押せないように（なくても動くがUX向上）
+        const sel = document.getElementById('suffix');
+        const btn = document.getElementById('next-btn');
+        const update = () => { btn.disabled = !sel.value; };
+        update();
+        sel.addEventListener('change', update);
+      </script>
     </form>
   </div>
 </main>

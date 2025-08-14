@@ -4,13 +4,13 @@
 {% block body_class %}page-index{% endblock %}
 
 {% block content %}
-<main class="main-content index-content">
+<main class="main-content">
   <div class="index-wrap">
     <div class="index-inner">
       {% if user.is_authenticated %}
-        <a class="btn-start" href="{% url 'problem_select' %}">つづける</a>
+        <a class="btn btn-start" href="{% url 'problem_select' %}">つづける</a>
       {% else %}
-        <a class="btn-start" href="{% url 'register' %}">はじめる</a>
+        <a class="btn btn-start" href="{% url 'register' %}">はじめる</a>
         <a class="link-sub" href="{% url 'login' %}">アカウントをお持ちの方</a>
     {% endif %}
       </div>

@@ -1,20 +1,4 @@
-/* --- base.html ------------------------------------------- */
-/* --- correct.html ------------------------------------------- */
-/* --- finish2.html ------------------------------------------- */
-/* --- finish3.html ------------------------------------------- */
-/* --- finish4.html ------------------------------------------- */
-/* --- index.html ------------------------------------------- */
-/* --- login.html ------------------------------------------- */
-/* --- mypage.html ------------------------------------------- */
-/* --- not_logged.html ------------------------------------------- */
-/* --- problem_select.html ------------------------------------------- */
-/* --- question_base.html ------------------------------------------- */
-/* --- register_birthday.html ------------------------------------------- */
-/* --- register_done.html ------------------------------------------- */
-/* --- register.html ------------------------------------------- */
-/* --- select_icon.html ------------------------------------------- */
-/* --- timeline_embed.html ------------------------------------------- */
-/* --- wrong.html ------------------------------------------- */
+
 
 body {
   font-family: 'Yomogi', cursive;
@@ -37,6 +21,14 @@ input {
   text-align: center;
   font-family: 'Yomogi', cursive; 
 }
+
+input,
+textarea,
+select {
+  outline:none;
+  caret-color: #c49dbb;
+}
+
 /* .btn{
   padding: 10px 20px;
   font-size: 22px;
@@ -52,7 +44,7 @@ input {
   color: #111;
   font-size: 25px;
 } */
-
+/* ok */
 .btn{
   display: inline-block;
   background-color: #ffdd6e;
@@ -61,10 +53,11 @@ input {
   padding: 10px 20px;
   margin: 8px 5px;
   font-size: 30px;
+  color: #111;
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.btn:hover{
+/* ok */.btn:hover{
   background-color: #FFC400;
   color: #FAF5E0;
   border-color: #FFC400;
@@ -72,30 +65,29 @@ input {
   font-weight: 900;
 }
 
-.btn-start {
-  /* padding: 14px 36px; */
+/* ok */.btn-start {
   border-radius: 9999px;
   text-decoration: none;
 }
 
-.btn-cancel {
+/* ok */.btn-cancel {
   background-color: #b8dff2;
 }
 
-.btn-next {
+/* ok */.btn-next {
   background-color: #f5b3b3; 
 }
 
-.btn-wrong {
+/* ok */.btn-wrong {
   background-color: #c49dbb; 
 }
 
-.btn_right {
+/* ok */.btn_right {
   float: right;
   margin-right: 30px;
 }
 
-.btn-home {
+/* ok */.btn-home {
   background-color: #fff9b1;
 }
 
@@ -133,22 +125,26 @@ input {
   background-color: #fff8b099;
 }
 
-.main-content {
+/* ok */.main-content {
+  font-weight: 100;
   width: 90%;
-  margin: 40px auto 50px;
-  height: 427px;
+  margin: 0 auto;
+}
+/* ok */
+body.page-problem_select .main-content {
+  height: 508px;
 }
 
 /* --- index.html ------------------------------------------- */
-.index-content {
+body.page-index .main-content {
   margin: 0;
-  height: 517px;
   width: 100%;
 }
+
 .index-wrap {
   margin: 0;
   width: 100%;
-  height: 75vh;
+  height: 77vh;
   background-image: url("../images/index_hero.png");
   background-size: cover;
   background-position: center;
@@ -159,6 +155,7 @@ input {
 .index-inner {
   width: 25%;
   margin: 0 auto;
+  padding-top: 390px;
   text-align: center;
 }
 
@@ -169,22 +166,18 @@ input {
 }
 
 /* --- base.html ----------------------------------------------------- */
-.site-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.site-header {
+/* ok */.site-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 24px;
   background-color: #a2d8a2;
+    flex-wrap: wrap;
+    gap: 10px;
+
 }
 
+/*  OK  */
 .header-left,
 .header-right {
   display: flex;
@@ -193,11 +186,16 @@ input {
 }
 
 /* --- login.html --- */
+/*  OK  */
+body.page-login .main-content {
+  padding: 17px;
+}
+/*  OK  */
 .login_form {
   max-width: 500px;
   margin: 0 auto;
 }
-
+/*  OK  */
 .form-block {
   text-align: center;
   max-width: 400px;
@@ -208,6 +206,7 @@ input {
   margin-bottom: 5px;
 }
 
+/* ok */
 .form-block input[type="text"],
 .form-block input[type="password"] {
   width: 91%;
@@ -219,23 +218,28 @@ input {
   box-shadow: inset 2px 2px 5px #eee;
   margin: 5px;
 }
-
-.form-block input[type="text"]::placeholder,
-.form-block input[type="password"]::placeholder {
+/* ok */
+input:focus{
+  border-color: #c49dbb;
+  box-shadow: 0 0 0 4px rgba(96,165,250,.25);
+}
+/* ok */
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
   color: #999;
   opacity: 0.5;
   font-weight: 400;
 }
 
 
-
+/* ok */
 .pin-input {
   display: flex;
   gap: 10px;
   justify-content: center;
   margin-top: 5px;
 }
-
+/* ok */
 .pin-digit {
   width: 50px;
   height: 60px;
@@ -247,12 +251,21 @@ input {
 }
 
 /* --- register.html ------------------------------------------------- */
-
-.register-container, .reg-pin-container {
-  margin: 0 auto;
+/* ok */
+.register-container {
+  margin: 37px auto;
   text-align: center;
   width: 60%;
-  height: 375px;
+  padding: 20px;
+  background-color: #FAF5E0;
+  border: 5px solid #a2d8a2;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+}
+.reg-pin-container {
+  margin: 64px auto;
+  text-align: center;
+  width: 60%;
   padding: 20px;
   background-color: #FAF5E0;
   border: 5px solid #a2d8a2;
@@ -260,7 +273,7 @@ input {
   box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
 }
 
-
+/* ok */
 .form-row {
   font-family: 'Kiwi Maru', serif;
   display: flex;
@@ -268,7 +281,7 @@ input {
   align-items: center;
   gap: 10px;
 }
-
+/* ok */
 .nickname-input {
   text-align: center;
   font-size: 40px;
@@ -277,12 +290,9 @@ input {
   border: 5px solid #a2d8a2;
   width: 60%;
 }
+/* ok */
 
-.nickname-input::placeholder {
-  color: #999;
-  opacity: 0.6;
-}
-
+/* ok */
 .suffix-select {
   font-family: 'Yomogi', cursive;
   font-size: 20px;
@@ -291,17 +301,17 @@ input {
   border: 5px solid #a2d8a2;
   background-color: #fffefc;
 }
-
+/* ok */
 .suffix-options {
   font-size: 18px;
   margin: 15px 0;
 }
-
+/* ok */
 .suffix-options label {
   margin-right: 15px;
 }
 
-/* アイコン選択エリア */
+/* ok */
 .icon-grid {
   display: flex;
   flex-wrap: wrap;
@@ -314,7 +324,7 @@ input {
   width: 880px;
   margin: 35px auto;
 }
-
+/* ok */
 .icon-button {
   border: none;
   background-color: transparent;
@@ -322,19 +332,27 @@ input {
   transition: transform 0.2s;
 }
 
+/* ok */
 .icon-button:hover {
   transform: scale(1.1);
 }
 
+body.page-select_icon .main-content{ 
+  height: 510px;
+}
+
+/* ok */
 h2.sab-title {
   text-align: center;
 }
 
+/* ok */
 .register-done-container {
   text-align: center;
   padding: 30px 20px;
+  margin: 151px auto;
 }
-
+/* ok */
 .player-info {
   display: inline-flex;
   align-items: center;
@@ -344,7 +362,7 @@ h2.sab-title {
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
-
+/* ok */
 .icon-circle {
   width: 70px;
   height: 70px;
@@ -354,72 +372,63 @@ h2.sab-title {
   align-items: center;
   justify-content: center;
 }
-
+/* ok */
 .icon-circle img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
+/* ok */
 .player-name {
   font-size: 20px;
   font-weight: bold;
 }
-
+/* ok */
 .done-message {
   margin-top: 20px;
   font-size: 18px;
   color: #555;
 }
-
-.btn-done {
-  display: inline-block;
-  margin-top: 25px;
-  padding: 12px 40px;
-  background-color: #4a64e8;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 30px;
-  text-decoration: none;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: background-color 0.3s ease;
+/* ok */
+.submit-container {
+  text-align: center;
 }
 
-.btn-done:hover {
-  background-color: #3a53d8;
-}
-
-/* ログインメッセージ */
+/* ok */
 .login_message {
   color: green;
-  font-weight: bold;
   background-color: #e0f8e0;
   border: 1px solid #90ee90;
   padding: 0 10px;
   border-radius: 5px;
   position: absolute;
   right: 40%;
+  font-size: 30px;
+  font-weight: 300;
 }
 
 
 
 /* ---mypage.html--- */
+body.page-mypage .main-content {
+  height: 508px;
+}
+/* ok */
 .mypage-wrap{
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   width: 76%;
-  margin: 0 auto;
+  margin: 0 auto ;
   margin-top: 10px;
 }
 
-/* 左カラム--------------- */
+/* ok */
 .profile-col {
   display: flex;
   justify-content: right;
 }
-
+/* ok */
 .profile {
   width: 220px;
   display: flex;
@@ -432,7 +441,7 @@ h2.sab-title {
   box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
   padding: 20px;
 }
-
+/* ok */
 .profile .icon img {
   width: 130px;
   height: 130px;
@@ -444,38 +453,40 @@ h2.sab-title {
   box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
   margin-bottom: 15px;
 }
-
+/* ok */
 .profile .nickname {
   font-size: 33px;
   font-weight: bold;
 }
 
-/* 右カラム ---------------------- */
+/* ok */
+.stickers-title {
+  display: flex; 
+  align-items: center;
+  margin: 10px 20px
+}
+/* ok */
 .section-title {
-  display: inline-block;
-  margin: 10px 20px;
-  font-weight: 300;
-  color: #444;
+  margin-right: auto;
+}
+/* ok */
+.section-count {
+  margin-left: auto;
 }
 
-.section-count {
-  display: inline-block;
-  float: right;
-  margin-right: 20px;
-}
+/* ok */
 .section-count strong {
   font-size: 28px;
+  font-weight: 900;
 }
-
+/* ok */
 .stickers-col {
   width: 100%;
   max-width: 675px;
   margin: 0 auto;
 }
-.section-title-left {
-  text-align: left; margin-left: 0;
-}
 
+/* ok */
 .stickers-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -488,7 +499,7 @@ h2.sab-title {
   box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
   padding: 20px;
 }
-
+/* ok */
 .sticker-box{
   width: 98px;
   height: 98px;
@@ -500,22 +511,21 @@ h2.sab-title {
   place-items: center;
   box-sizing: border-box;
 }
-
+/* ok */
 .sticker-box img{
   width: 100%;
   height: 100%;
   object-fit: contain;
   display: block;
 }
-
+/* ok */
 .sticker-box.inactive{
   border-color: #ccc;
   background-color: #f5f5f5;
   opacity: .6;
 }
 
-/* ページネーション */
-.pagination{
+/* ok */.pagination{
   display: flex;
   align-items: center;
   gap: 12px;
@@ -523,6 +533,7 @@ h2.sab-title {
   flex-wrap: nowrap;
   justify-content: center;
 }
+/* ok */
 .page-btn{
   padding: 6px 10px;
   border: 2px solid #ffd7a8;
@@ -530,48 +541,74 @@ h2.sab-title {
   background: #ffe6e6;
   text-decoration: none;
 }
+/* ok */
 .page-btn.disabled{
   opacity: .5;
   pointer-events: none;
 }
+/* ok */
 .page-info{
   font-weight: bold;
 }
+/* ok */
 .page-title {
   border-bottom: 3px solid #a2d8a2;
 }
 
+/* --- finish2.html ------------------------------------------- */
+body.page-finish2,
+body.page-finish3,
+body.page-finish4 { 
+  background-color: #c49dbb;
+  text-align: center;
+}
+
+body.page-finish2 .main-content,
+body.page-finish3 .main-content,
+body.page-finish4 .main-content{ 
+  padding-top: 70px;
+  height: 465px;
+}
 
 /* ---correct.html--- */
+/* ok */
+body.page-correct { 
+  background-color: #f5b5d194;
+}
+/* ok */
+body.page-correct .main-content {
+  padding: 21px;
+}
+
 .correct-page {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 40px;
+  margin: 32px auto;
 }
-
+/* ok */
 .correct-message {
   width: 40%;
   text-align: center;
   margin: 0 2%;
 }
-
+/* ok */
 .correct-message h1{
   font-size: 39px;
 }
-
+/* ok */
 .correct-message p{
   text-align: left;
 }
-
+/* ok */
 .correct-message .btn-wrong{
   position: static;
   display: inline-block;
   margin-top: 16px;
 }
 
-/* --- ステッカー選択フォーム全体 --- */
-.sticker-form {
+/* ok */.sticker-form {
   width: 60%;
   margin-left: auto;
   padding: 20px;
@@ -581,19 +618,19 @@ h2.sab-title {
   border-radius: 10px;
   box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
 }
-
+/* ok */
 .sticker-form .btn-wrong {
   display: block;
   margin: 20px auto 0;
 }
-
+/* ok */
 .small-coment {
   text-align: center;
   display: block;
   margin-bottom: 10px;
   font-size: 14px;
 }
-
+/* ok */
 .sticker-grid {
   display: flex;
   flex-wrap: wrap;
@@ -606,11 +643,11 @@ h2.sab-title {
   background-color: #FAF5E0;
   border: none;
 }
-
-.sticker-grid input[type="radio"] {
+/* ok */
+input[type="radio"] {
   display: none;
 }
-
+/* ok */
 .sticker-label {
   border: 3px solid transparent;
   border-radius: 15px;
@@ -624,29 +661,28 @@ h2.sab-title {
   background-color: #fffefc;
 }
 
-/* ステッカー画像 */
-.sticker-label img {
+/* ok */.sticker-label img {
   width: 80px;
   height: 80px;
   object-fit: contain;
   transition: transform 0.2s ease;
 }
 
-/* 選択されたときのアニメーション */
+/* ok */
 .sticker-grid input[type="radio"]:checked + .sticker-label {
   border-color: #f0ae8d;
   box-shadow: 0 0 10px #f0ae8d;
   background-color: #fff5eb;
   transform: scale(1.1);
 }
-
+/* ok */
 .saved-box .btn-next{
   display: inline-block;
   text-decoration: none;
   margin-top: 16px;
   position: static;
 }
-
+/* ok */
 .saved-box{
   width: min(720px, 90%);
   height: 375px;
@@ -658,14 +694,15 @@ h2.sab-title {
   text-align: center;
   box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
 }
-
+/* ok */
 @keyframes popIn {
   0% { transform: scale(0.8); opacity: 0; }
   60% { transform: scale(1.05); opacity: 1; }
   100% { transform: scale(1); }
 }
+/* ok */
 .pop-in { animation: popIn .6s ease; }
-
+/* ok */
 .won-sticker{
   width: 120px; 
   height: 120px; 
@@ -677,7 +714,7 @@ h2.sab-title {
   margin: 10px auto 14px; 
   display: block;
 }
-
+/* ok */
 .rank-badge{
   display: inline-block;
   margin: 8px 0 16px;
@@ -688,19 +725,22 @@ h2.sab-title {
   font-weight: 700;
 }
 
-
-
-/* 問題------------------- */
+/* ok */
 .title-style {
   margin-top: 0;
   padding-bottom: 5px;
 }
+/* ok */
 h2.sab-title {
   text-align: center;
   font-size: 30px;
   font-weight: 300;
   padding: 15px;
   margin: 0;
+}
+/* ok */
+body.page-question_base .main-content{ 
+  padding: 10px;
 }
 
 .question-container {
@@ -709,7 +749,7 @@ h2.sab-title {
   gap: 40px;
   margin: 30px;
 }
-
+/* ok */
 .question-p {
   text-align: center;
   background-color: #FAF5E0;
@@ -720,7 +760,7 @@ h2.sab-title {
   border: 6px solid #a2d8a2;
   margin-top: 0;
 }
-
+/* ok */
 .question-image img {
   max-width: 450px;
   max-height: 430px;
@@ -728,26 +768,18 @@ h2.sab-title {
   padding: 5px;
   background-color: #f9f9f9;
 }
-
+/* ok */
 .question-content {
   flex: 1;
   font-size: 18px;
 }
-
+/* ok */
 .choices-container {
   margin: 50px auto 25px;
   text-align: center;
 }
 
-.submit-container {
-  text-align: center; /* ボタンを中央に */
-}
-
-.question-content input[type="radio"] {
-  display: none;
-}
-
-/* ボタン風のラベル */
+/* ok */
 .choice-btn {
   display: inline-block;
   background-color: #fff;
@@ -760,45 +792,54 @@ h2.sab-title {
   transition: all 0.3s ease;
 }
 
-/* ホバー時の効果 */
+/* ok */
 .choice-btn:hover {
   background-color: #f0fff0;
   transform: scale(1.05);
 }
 
-/* 選択されたときのデザイン */
+/* ok */
 .question-content input[type="radio"]:checked + .choice-btn {
   background-color: #a2d8a2;
   color: white;
   border-color: #7cc67c;
   transform: scale(1.05);
+  font-weight: 900;
+
 }
-
-
-
-
-
+/* ok */
 .button-group a {
   display: inline-block;
   margin-right: 10px;
 }
-
+/* ok */
 .logout_btn_form{
   display:inline;
   float: right;
 }
 
-header {
+/* ok */header {
   background-color: #a5d4ad;
   height: 110px;
   line-height: 72px;
 }
 
-.footer {
+/* ok */.footer { 
   text-align: center;
-  color: #444;
-  padding: 10px;
+  color: #555;
+  padding: 1px;
   font-size: 14px;
   font-weight: 100;
   background-color: #a5d4ad;
+}
+
+/* --- wrong.html ------------------------------------------- */
+body.page-wrong { 
+  background-color: #b8dff2;
+  text-align: center;
+}
+
+body.page-wrong .main-content{ 
+  padding-top: 70px;
+  height: 465px;
 }
