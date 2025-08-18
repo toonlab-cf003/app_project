@@ -1,17 +1,11 @@
-from .forms import NicknameRegisterForm
 from .models import Sticker
-from django.conf import settings
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 
 # topページ --------------------------------------------------------------
 def index_view(request):
@@ -37,10 +31,8 @@ def login_view(request):
                 login(request, user)
                 messages.success(request, f"{user.nickname}さん、ログインしました！")
                 return redirect('index')
-            else:
-                messages.error(request, "パスワードがちがいます。")
         except User.DoesNotExist:
-            messages.error(request, "ニックネームが見つかりません。")
+            pass
 
     return render(request, 'main/login.html')
 
@@ -244,8 +236,7 @@ def answer_view(request):
 
 # ----- 結果ページ ----------------------------------------------------------
 def correct_view(request):
-    # セッション or POSTから next_url を取り出して使う
-    next_url = request.GET.get('next', 'index')  # なければ index に戻る
+    next_url = request.GET.get('next', 'index')
     params = {
         'next_url': next_url,
         'sticker_list': range(1, 51),
@@ -277,41 +268,9 @@ def mypage_view(request):
     return render(request, 'main/mypage.html', {
         'page_obj': page_obj,
         'empty_slots': empty_slots,
-        'sticker_count': sticker_count,        # 合計
-        'current_page_count': current_page_count,
-        'rank_title': rank_title,              # マイページ用称号
-    })
-
-# ----- シールを保存 --------------------------------------------------------
-def save_sticker_view(request):
-    if request.method != 'POST':
-        return redirect('index')
-
-    next_url = request.GET.get('next') or 'index'
-    sticker = request.POST.get('sticker')
-
-    if not sticker:
-        return render(request, 'main/correct.html', {
-            'saved': False,
-            'next_url': next_url,
-            'error': 'シールをえらんでね！',
-        })
-
-    Sticker.objects.create(user=request.user, filename=sticker)
-
-    # --- セッションにもミラー保存（互換用・任意） ---
-    sticker_list = request.session.get('stickers', [])
-    sticker_list.append(sticker)
-    request.session['stickers'] = sticker_list
-    request.session.modified = True
-
-    sticker_count = Sticker.objects.filter(user=request.user).count()
-
-    return render(request, 'main/correct.html', {
-        'saved': True,
-        'saved_sticker': sticker,
         'sticker_count': sticker_count,
-        'next_url': next_url,
+        'current_page_count': current_page_count,
+        'rank_title': rank_title,
     })
 
 # ----- 称号 ---------------------------------------------------------------
@@ -332,6 +291,7 @@ def _rank_title(count: int) -> str:
         plus = ((count - 61) // 10) + 1
         return f"でんせつ +{min(plus, 100)}"
 
+# ----- シールを保存 --------------------------------------------------------
 def save_sticker_view(request):
     if request.method != 'POST':
         return redirect('index')
@@ -339,7 +299,6 @@ def save_sticker_view(request):
     next_url = request.GET.get('next') or 'index'
     sticker = request.POST.get('sticker')
 
-    # 何も選んでない→正解画面に戻す
     if not sticker:
         return render(request, 'main/correct.html', {
             'saved': False,
@@ -347,10 +306,8 @@ def save_sticker_view(request):
             'error': 'シールをえらんでね！',
         })
 
-    # DB保存（重複OK。重複禁止にするなら get_or_create に）
     Sticker.objects.create(user=request.user, filename=sticker)
 
-    # 合計枚数＆称号を正解画面に表示
     sticker_count = Sticker.objects.filter(user=request.user).count()
     rank_title = _rank_title(sticker_count)
 
@@ -361,4 +318,3 @@ def save_sticker_view(request):
         'rank_title': rank_title,
         'next_url': next_url,
     })
-
